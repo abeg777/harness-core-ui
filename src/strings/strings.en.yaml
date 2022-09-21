@@ -142,7 +142,6 @@ deleteError: This resource could not be deleted
 please: Please
 clickHere: ' click here '
 blueGreen: BlueGreen
-primary: Primary
 canary: Canary
 changes: Changes
 change: Change
@@ -1070,3 +1069,5 @@ lowercase: 'lowercase'
 specialChar: 'special character'
 adminResources: 'Admin:Resources'
 personalAccessToken: 'Personal Access Token'
+codeErrors: Code Errors
+codeErrorsHeading: Review the status and error budget of all your defined service level objectives

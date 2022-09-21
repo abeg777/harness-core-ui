@@ -7834,6 +7834,14 @@ export interface StringsMap {
   /**
    * @deprecated migrate this string to module level file
    */
+  codeErrors: string
+  /**
+   * @deprecated migrate this string to module level file
+   */
+  codeErrorsHeading: string
+  /**
+   * @deprecated migrate this string to module level file
+   */
   codeRepositories: string
   /**
    * @deprecated migrate this string to module level file
