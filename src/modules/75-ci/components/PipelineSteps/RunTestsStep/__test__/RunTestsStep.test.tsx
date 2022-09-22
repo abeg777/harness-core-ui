@@ -95,7 +95,7 @@ describe('RunTests Step', () => {
     test('Error tracking should render properly', async () => {
       jest.spyOn(FeatureFlag, 'useFeatureFlags').mockReturnValue({
         TI_DOTNET: true,
-        ERROR_TRACKING_ENABLED: true
+        CVNG_ENABLED: true
       })
       const { container, getByText } = render(
         <TestStepWidget initialValues={{}} type={StepType.RunTests} stepViewType={StepViewType.Edit} />

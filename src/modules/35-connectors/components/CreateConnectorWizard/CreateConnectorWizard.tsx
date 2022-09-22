@@ -107,7 +107,7 @@ export const ConnectorWizard: React.FC<CreateConnectorWizardProps> = props => {
     onSuccess: onSuccessWithEventTracking
   }
 
-  const { ERROR_TRACKING_ENABLED } = useFeatureFlags()
+  const { CVNG_ENABLED } = useFeatureFlags()
 
   useTrackEvent(ConnectorActions.StartCreateConnector, {
     category: Category.CONNECTOR,
@@ -188,7 +188,7 @@ export const ConnectorWizard: React.FC<CreateConnectorWizardProps> = props => {
     case Connectors.SERVICE_NOW:
       return <ServiceNowConnector {...commonProps} />
     case Connectors.ERROR_TRACKING:
-      return ERROR_TRACKING_ENABLED ? <CreateErrorTrackingConnector {...commonProps} /> : null
+      return CVNG_ENABLED ? <CreateErrorTrackingConnector {...commonProps} /> : null
     case Connectors.AZURE:
       return <CreateAzureConnector {...commonProps} />
     case Connectors.JENKINS:
