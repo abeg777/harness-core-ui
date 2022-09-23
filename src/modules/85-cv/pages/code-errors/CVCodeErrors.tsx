@@ -31,7 +31,7 @@ export const CVCodeErrors = (): JSX.Element => {
     pathname: '/events'
   }
 
-  useDocumentTitle([getString('cv.srmTitle'), getString('codeErrors')])
+  useDocumentTitle([getString('cv.srmTitle'), getString('cv.codeErrors')])
 
   if (SRM_ET_EXPERIMENTAL) {
     return (
@@ -40,8 +40,8 @@ export const CVCodeErrors = (): JSX.Element => {
           <HorizontalLayout>
             <NGBreadcrumbs />
           </HorizontalLayout>
-          <h3 className={css.pageHeaderTitle}>{getString('codeErrors')}</h3>
-          <p className={css.pageHeaderText}>{getString('codeErrorsHeading')}</p>
+          <h3 className={css.pageHeaderTitle}>{getString('cv.codeErrors')}</h3>
+          <p className={css.pageHeaderText}>{getString('cv.codeErrorsHeading')}</p>
         </div>
         <ChildAppMounter<EventListProps>
           ChildApp={EventList}

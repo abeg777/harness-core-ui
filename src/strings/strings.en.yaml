@@ -1070,5 +1070,3 @@ lowercase: 'lowercase'
 specialChar: 'special character'
 adminResources: 'Admin:Resources'
 personalAccessToken: 'Personal Access Token'
-codeErrors: Code Errors
-codeErrorsHeading: Review code errors related to your project

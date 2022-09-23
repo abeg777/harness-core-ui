@@ -6734,6 +6734,8 @@ export interface StringsMap {
   'cv.changesPage.eventCount': string
   'cv.changesPage.viewKubernetesEvents': string
   'cv.clusterType': string
+  'cv.codeErrors': string
+  'cv.codeErrorsHeading': string
   'cv.componentValidations.queryType': string
   'cv.componentValidations.queryTypeLabel': string
   'cv.componentValidations.requestMethod': string
@@ -7857,14 +7859,6 @@ export interface StringsMap {
    * @deprecated migrate this string to module level file
    */
   cloudProviders: string
-  /**
-   * @deprecated migrate this string to module level file
-   */
-  codeErrors: string
-  /**
-   * @deprecated migrate this string to module level file
-   */
-  codeErrorsHeading: string
   /**
    * @deprecated migrate this string to module level file
    */
