@@ -93,6 +93,15 @@ steps:
       hostName: Host Name Convention
       vpcs: VPCs
       loadBalancer: Load  Balancer
+  ecsBGCreateServiceStep:
+    sectionHeaders:
+      configureProductionService: Configure your Production Service
+      configureStageService: Configure your Stage Service
+    labels:
+      prodListener: Prod Listener
+      prodListenerRuleARN: Prod Listener Rule ARN
+      stageListener: Stage Listener
+      stageListenerRuleARN: Stage Listener Rule ARN
 filePathPlaceholder: 'Enter path within manifest folder'
 resourceCannotBeEmpty: 'Resource cannot be empty'
 manifestPathsCannotBeEmpty: 'Manifest Paths cannot be empty'
@@ -375,7 +384,7 @@ infrastructure:
   sshWinRmAzure:
     cloudProvider: Cloud Provider
     hostConnectionAttributes: Host Connection Attributes
-    usePublicDns: Use Public DNS connection
+    hostConnectionType: Host Connection Type
     noTagsAzure: No Tags found with given Connector and Subscription Id
 cloudFormation:
   createDescription: Provision resources using a CloudFormation template.

@@ -7,7 +7,7 @@
 
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { defaultTo, get, merge, noop, omit, set } from 'lodash-es'
+import { defaultTo, get, isEmpty, merge, noop, omit, set } from 'lodash-es'
 import type { FormikProps } from 'formik'
 import { parse } from 'yaml'
 import produce from 'immer'
@@ -30,6 +30,7 @@ import { Color } from '@harness/design-system'
 
 import { useStrings } from 'framework/strings'
 import {
+  CustomDeploymentConnectorNGVariable,
   DeploymentStageConfig,
   InfrastructureConfig,
   InfrastructureDefinitionConfig,
@@ -39,6 +40,7 @@ import {
   useUpdateInfrastructure
 } from 'services/cd-ng'
 
+import type { PipelineInfoConfig, StageElementConfig, TemplateLinkConfig } from 'services/pipeline-ng'
 import { getScopeFromDTO } from '@common/components/EntityReference/EntityReference'
 import { YamlBuilderMemo } from '@common/components/YAMLBuilder/YamlBuilder'
 import { NameIdDescriptionTags } from '@common/components'
@@ -47,24 +49,37 @@ import type { YamlBuilderHandlerBinding, YamlBuilderProps } from '@common/interf
 import { yamlStringify } from '@common/utils/YamlHelperMethods'
 import { IdentifierSchema, NameSchema } from '@common/utils/Validation'
 
+import RbacButton from '@rbac/components/Button/Button'
+import { usePermission } from '@rbac/hooks/usePermission'
+import { ResourceType } from '@rbac/interfaces/ResourceType'
+import { PermissionIdentifier } from '@rbac/interfaces/PermissionIdentifier'
+
 import { DefaultPipeline } from '@pipeline/components/PipelineStudio/PipelineContext/PipelineActions'
 import { usePipelineContext } from '@pipeline/components/PipelineStudio/PipelineContext/PipelineContext'
+import { DeployTabs } from '@pipeline/components/PipelineStudio/CommonUtils/DeployStageSetupShellUtils'
 import { ServiceDeploymentType, StageType } from '@pipeline/utils/stageHelpers'
 import type { DeploymentStageElementConfig } from '@pipeline/utils/pipelineTypes'
 import type { DeployStageConfig } from '@pipeline/utils/DeployStageInterface'
-import type { PipelineInfoConfig, StageElementConfig } from 'services/pipeline-ng'
+import { DeployStageErrorProvider, StageErrorContext } from '@pipeline/context/StageErrorContext'
 
 import DeployInfraDefinition from '@cd/components/PipelineStudio/DeployInfraSpecifications/DeployInfraDefinition/DeployInfraDefinition'
-import { DefaultNewStageId, DefaultNewStageName } from '@cd/components/Services/utils/ServiceUtils'
 import SelectDeploymentType from '@cd/components/PipelineStudio/DeployServiceSpecifications/SelectDeploymentType'
-import { InfrastructurePipelineProvider } from '@cd/context/InfrastructurePipelineContext'
+import { DefaultNewStageId, DefaultNewStageName } from '@cd/components/Services/utils/ServiceUtils'
 import { PipelineVariablesContextProvider } from '@pipeline/components/PipelineVariablesContext/PipelineVariablesContext'
-import RbacButton from '@rbac/components/Button/Button'
-import { ResourceType } from '@rbac/interfaces/ResourceType'
-import { PermissionIdentifier } from '@rbac/interfaces/PermissionIdentifier'
-import { DeployStageErrorProvider, StageErrorContext } from '@pipeline/context/StageErrorContext'
-import { DeployTabs } from '@pipeline/components/PipelineStudio/CommonUtils/DeployStageSetupShellUtils'
+import { InfrastructurePipelineProvider } from '@cd/context/InfrastructurePipelineContext'
+
+import type {
+  GetTemplateProps,
+  GetTemplateResponse
+} from 'framework/Templates/TemplateSelectorContext/useTemplateSelector'
+import { getTemplateRefVersionLabelObject } from '@pipeline/utils/templateUtils'
+import { useDeepCompareEffect } from '@common/hooks'
 import css from './InfrastructureDefinition.module.scss'
+
+interface CustomDeploymentMetaData {
+  templateMetaData: TemplateLinkConfig
+  variables: Array<CustomDeploymentConnectorNGVariable>
+}
 
 const yamlBuilderReadOnlyModeProps: YamlBuilderProps = {
   fileName: `infrastructureDefinition.yaml`,
@@ -84,7 +99,8 @@ export default function InfrastructureModal({
   refetch,
   selectedInfrastructure,
   environmentIdentifier,
-  stageDeploymentType
+  stageDeploymentType,
+  getTemplate
 }: {
   hideModal: () => void
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -92,6 +108,7 @@ export default function InfrastructureModal({
   selectedInfrastructure?: string
   environmentIdentifier: string
   stageDeploymentType?: ServiceDeploymentType
+  getTemplate?: (data: GetTemplateProps) => Promise<GetTemplateResponse>
 }): React.ReactElement {
   const { accountId, orgIdentifier, projectIdentifier } = useParams<ProjectPathProps>()
 
@@ -100,7 +117,7 @@ export default function InfrastructureModal({
       ?.infrastructureDefinition
   }, [selectedInfrastructure])
 
-  const { type, spec, allowSimultaneousDeployments, deploymentType } = defaultTo(
+  const { type, spec, allowSimultaneousDeployments, deploymentType, identifier } = defaultTo(
     infrastructureDefinition,
     {}
   ) as InfrastructureDefinitionConfig
@@ -136,11 +153,22 @@ export default function InfrastructureModal({
     []
   )
 
+  const [canEditInfrastructure] = usePermission(
+    {
+      resource: {
+        resourceType: ResourceType.ENVIRONMENT,
+        resourceIdentifier: identifier
+      },
+      permissions: [PermissionIdentifier.EDIT_ENVIRONMENT]
+    },
+    [identifier]
+  )
+
   return (
     <InfrastructurePipelineProvider
       queryParams={{ accountIdentifier: accountId, orgIdentifier, projectIdentifier }}
       initialValue={pipeline as PipelineInfoConfig}
-      isReadOnly={false}
+      isReadOnly={!canEditInfrastructure}
     >
       <PipelineVariablesContextProvider pipeline={pipeline}>
         <DeployStageErrorProvider>
@@ -150,6 +178,8 @@ export default function InfrastructureModal({
             infrastructureDefinition={infrastructureDefinition}
             environmentIdentifier={environmentIdentifier}
             stageDeploymentType={(deploymentType as Partial<ServiceDeploymentType>) || stageDeploymentType}
+            isReadOnly={!canEditInfrastructure}
+            getTemplate={getTemplate}
           />
         </DeployStageErrorProvider>
       </PipelineVariablesContextProvider>
@@ -162,13 +192,17 @@ function BootstrapDeployInfraDefinition({
   refetch,
   infrastructureDefinition,
   environmentIdentifier,
-  stageDeploymentType
+  isReadOnly = false,
+  stageDeploymentType,
+  getTemplate
 }: {
   hideModal: () => void
   refetch: (infrastructure?: InfrastructureResponseDTO) => void
   infrastructureDefinition?: InfrastructureDefinitionConfig
   environmentIdentifier: string
+  isReadOnly: boolean
   stageDeploymentType?: ServiceDeploymentType
+  getTemplate?: (data: GetTemplateProps) => Promise<GetTemplateResponse>
 }): JSX.Element {
   const { accountId, orgIdentifier, projectIdentifier } = useParams<ProjectPathProps>()
   const {
@@ -203,6 +237,18 @@ function BootstrapDeployInfraDefinition({
   const formikRef = useRef<FormikProps<Partial<InfrastructureDefinitionConfig>>>()
   const { stage } = getStageFromPipeline<DeploymentStageElementConfig>(selectedStageId || '')
 
+  const getDeploymentTemplateData = useCallback((): CustomDeploymentMetaData => {
+    const variables = get(stage, 'stage.spec.infrastructure.infrastructureDefinition.spec.variables')
+    return {
+      templateMetaData: get(stage, 'stage.spec.infrastructure.infrastructureDefinition.spec.customDeploymentRef'),
+      ...(variables && variables)
+    }
+  }, [stage])
+
+  const [customDeploymentMetaData, setCustomDeploymentMetaData] = useState<CustomDeploymentMetaData | undefined>(
+    getDeploymentTemplateData()
+  )
+
   useEffect(() => {
     setSelection({
       stageId: 'stage_id'
@@ -217,6 +263,28 @@ function BootstrapDeployInfraDefinition({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStageId])
 
+  useDeepCompareEffect(() => {
+    if (customDeploymentMetaData) {
+      const stageData = produce(stage, draft => {
+        if (draft) {
+          set(draft, 'stage.spec.serviceConfig.serviceDefinition.type', ServiceDeploymentType.CustomDeployment)
+          set(
+            draft,
+            'stage.spec.infrastructure.infrastructureDefinition.spec.customDeploymentRef',
+            customDeploymentMetaData?.templateMetaData
+          )
+          set(
+            draft,
+            'stage.spec.infrastructure.infrastructureDefinition.spec.variables',
+            customDeploymentMetaData?.variables
+          )
+        }
+      })
+      updateStage(stageData?.stage as StageElementConfig)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customDeploymentMetaData])
+
   const { data: infrastructureDefinitionSchema } = useGetYamlSchema({
     queryParams: {
       entityType: 'Infrastructure',
@@ -228,6 +296,17 @@ function BootstrapDeployInfraDefinition({
     }
   })
 
+  const addOrUpdateTemplate = async (): Promise<void> => {
+    if (getTemplate) {
+      const { template } = await getTemplate({ templateType: 'CustomDeployment' })
+      const templateJSON = parse(template.yaml || '').template
+      setCustomDeploymentMetaData({
+        templateMetaData: getTemplateRefVersionLabelObject(template),
+        variables: templateJSON?.spec?.infrastructure?.variables
+      })
+    }
+  }
+
   const updateFormValues = (infrastructureDefinitionConfig: InfrastructureDefinitionConfig): void => {
     setFormValues({
       name: infrastructureDefinitionConfig.name,
@@ -238,11 +317,18 @@ function BootstrapDeployInfraDefinition({
 
     const stageData = produce(stage, draft => {
       const infraDefinition = get(draft, 'stage.spec.infrastructure', {})
-      infraDefinition.infrastructureDefinition.spec = infrastructureDefinitionConfig.spec
-      infraDefinition.allowSimultaneousDeployments = infrastructureDefinitionConfig.allowSimultaneousDeployments
+      if (infrastructureDefinitionConfig.spec) {
+        infraDefinition.infrastructureDefinition.spec = infrastructureDefinitionConfig.spec
+      }
+      if (infrastructureDefinitionConfig.allowSimultaneousDeployments) {
+        infraDefinition.allowSimultaneousDeployments = infrastructureDefinitionConfig.allowSimultaneousDeployments
+      }
 
       const serviceDefinition = get(draft, 'stage.spec.serviceConfig.serviceDefinition', {})
-      serviceDefinition.type = infrastructureDefinitionConfig.deploymentType
+
+      if (infrastructureDefinitionConfig.deploymentType) {
+        serviceDefinition.type = infrastructureDefinitionConfig.deploymentType
+      }
     })
     updateStage(stageData?.stage as StageElementConfig)
   }
@@ -325,6 +411,24 @@ function BootstrapDeployInfraDefinition({
       })
   }
 
+  const onCustomDeploymentSelection = async (): Promise<void> => {
+    if (getTemplate) {
+      try {
+        const { template } = await getTemplate({ templateType: 'CustomDeployment' })
+        const templateRefObj = getTemplateRefVersionLabelObject(template)
+        const templateJSON = parse(template.yaml || '').template
+        setCustomDeploymentMetaData({
+          templateMetaData: templateRefObj,
+          variables: templateJSON?.spec?.infrastructure?.variables
+        })
+      } catch (_) {
+        // Reset data.. user cancelled template selection
+        setSelectedDeploymentType(undefined)
+        setCustomDeploymentMetaData(undefined)
+      }
+    }
+  }
+
   const handleDeploymentTypeChange = useCallback(
     (deploymentType: ServiceDeploymentType, resetInfrastructureDefinition = true): void => {
       // istanbul ignore else
@@ -339,7 +443,18 @@ function BootstrapDeployInfraDefinition({
           }
         })
         setSelectedDeploymentType(deploymentType)
-        updateStage(stageData?.stage as StageElementConfig)
+        const customDeploymentRef =
+          stage?.stage?.spec?.infrastructure?.infrastructureDefinition?.spec?.customDeploymentRef
+        if (deploymentType === ServiceDeploymentType.CustomDeployment) {
+          if (isEmpty(customDeploymentRef)) {
+            onCustomDeploymentSelection()
+          } else {
+            setCustomDeploymentMetaData(getDeploymentTemplateData())
+          }
+        } else {
+          setCustomDeploymentMetaData(undefined)
+          updateStage(stageData?.stage as StageElementConfig)
+        }
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -358,7 +473,13 @@ function BootstrapDeployInfraDefinition({
       checkErrorsForTab(DeployTabs.SERVICE),
       checkErrorsForTab(DeployTabs.INFRASTRUCTURE)
     ]).then(responses => {
-      if (responses.map(response => response.status).filter(status => status === 'rejected').length > 0) {
+      if (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        !isEmpty((responses[0] as any).value) ||
+        // custom condition added above to accommodate below issue. Else, next condition is enough
+        // https://github.com/jaredpalmer/formik/issues/3151 - validateForm does not reject on formik validation errors
+        responses.map(response => response.status).filter(status => status === 'rejected').length > 0
+      ) {
         return Promise.reject()
       } else {
         return Promise.resolve()
@@ -400,7 +521,16 @@ function BootstrapDeployInfraDefinition({
                       <NameIdDescriptionTags
                         formikProps={formikProps}
                         identifierProps={{
-                          isIdentifierEditable: !infrastructureDefinition
+                          isIdentifierEditable: isReadOnly ? false : !infrastructureDefinition
+                        }}
+                        descriptionProps={{
+                          disabled: isReadOnly
+                        }}
+                        inputGroupProps={{
+                          disabled: isReadOnly
+                        }}
+                        tagsProps={{
+                          disabled: isReadOnly
                         }}
                       />
                     )
@@ -410,9 +540,11 @@ function BootstrapDeployInfraDefinition({
               <SelectDeploymentType
                 viewContext="setup"
                 selectedDeploymentType={selectedDeploymentType}
-                isReadonly={!!stageDeploymentType}
+                isReadonly={!!stageDeploymentType || isReadOnly}
                 handleDeploymentTypeChange={handleDeploymentTypeChange}
                 shouldShowGitops={false}
+                customDeploymentData={customDeploymentMetaData?.templateMetaData}
+                addOrUpdateTemplate={addOrUpdateTemplate}
               />
               {selectedDeploymentType && <DeployInfraDefinition />}
             </>
@@ -442,6 +574,7 @@ function BootstrapDeployInfraDefinition({
                 showSnippetSection={false}
                 isReadOnlyMode={!isYamlEditable}
                 onEnableEditMode={handleEditMode}
+                isEditModeSupported={!isReadOnly}
               />
               {!isYamlEditable ? (
                 <div className={css.buttonWrapper}>
@@ -468,7 +601,7 @@ function BootstrapDeployInfraDefinition({
         padding={{ top: 'xlarge', left: 'huge', bottom: 'large' }}
         className={css.modalFooter}
       >
-        <Button
+        <RbacButton
           text={getString('save')}
           variation={ButtonVariation.PRIMARY}
           onClick={() => {
@@ -503,6 +636,12 @@ function BootstrapDeployInfraDefinition({
           }}
           disabled={isSavingInfrastructure}
           loading={isSavingInfrastructure}
+          permission={{
+            resource: {
+              resourceType: ResourceType.ENVIRONMENT
+            },
+            permission: PermissionIdentifier.EDIT_ENVIRONMENT
+          }}
         />
         <Button
           text={getString('cancel')}
