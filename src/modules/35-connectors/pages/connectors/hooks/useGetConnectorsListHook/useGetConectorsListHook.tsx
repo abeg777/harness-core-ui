@@ -29,8 +29,6 @@ import css from './useGetConnectorsListHook.module.scss'
 export const useGetConnectorsListHook = (
   catalogueMockData?: UseGetMockData<ResponseConnectorCatalogueResponse>
 ): UseGetConnectorsListHookReturn => {
-
-  const isCustomHealthEnabled = useFeatureFlag(FeatureFlag.CHI_CUSTOM_HEALTH)
   const isErrorTrackingEnabled = useFeatureFlag(FeatureFlag.CVNG_ENABLED)
   const isCustomSMEnabled = useFeatureFlag(FeatureFlag.CUSTOM_SECRET_MANAGER_NG)
   // This list will control which categories will be displayed in UI and its order
