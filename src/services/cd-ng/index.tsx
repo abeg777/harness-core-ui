@@ -356,6 +356,7 @@ export interface AccessControlCheckError {
     | 'SCM_UNEXPECTED_ERROR'
     | 'DUPLICATE_FILE_IMPORT'
     | 'AZURE_APP_SERVICES_TASK_EXCEPTION'
+    | 'AZURE_ARM_TASK_EXCEPTION'
     | 'MEDIA_NOT_SUPPORTED'
     | 'AWS_ECS_ERROR'
     | 'AWS_APPLICATION_AUTO_SCALING'
@@ -816,6 +817,7 @@ export interface ArtifactSource {
     | 'Gcr'
     | 'Ecr'
     | 'Nexus3Registry'
+    | 'Nexus2Registry'
     | 'ArtifactoryRegistry'
     | 'CustomArtifact'
     | 'Acr'
@@ -833,6 +835,7 @@ export interface ArtifactSourceConfig {
     | 'Gcr'
     | 'Ecr'
     | 'Nexus3Registry'
+    | 'Nexus2Registry'
     | 'ArtifactoryRegistry'
     | 'CustomArtifact'
     | 'Acr'
@@ -2556,12 +2559,12 @@ export interface DelegateGroupDetails {
       | 'PROFILE_SELECTORS'
   }
   groupName?: string
+  groupVersion?: string
   grpcActive?: boolean
   immutable?: boolean
   lastHeartBeat?: number
   tokenActive?: boolean
   upgraderLastUpdated?: number
-  versions?: string[]
 }
 
 export interface DelegateGroupListing {
@@ -2647,6 +2650,7 @@ export interface DelegateSetupDetails {
   name: string
   orgIdentifier?: string
   projectIdentifier?: string
+  runAsRoot?: boolean
   size?: 'LAPTOP' | 'SMALL' | 'MEDIUM' | 'LARGE'
   tags?: string[]
   tokenName?: string
@@ -3782,6 +3786,7 @@ export interface Error {
     | 'SCM_UNEXPECTED_ERROR'
     | 'DUPLICATE_FILE_IMPORT'
     | 'AZURE_APP_SERVICES_TASK_EXCEPTION'
+    | 'AZURE_ARM_TASK_EXCEPTION'
     | 'MEDIA_NOT_SUPPORTED'
     | 'AWS_ECS_ERROR'
     | 'AWS_APPLICATION_AUTO_SCALING'
@@ -4137,6 +4142,7 @@ export interface ErrorMetadata {
     | 'SCM_UNEXPECTED_ERROR'
     | 'DUPLICATE_FILE_IMPORT'
     | 'AZURE_APP_SERVICES_TASK_EXCEPTION'
+    | 'AZURE_ARM_TASK_EXCEPTION'
     | 'MEDIA_NOT_SUPPORTED'
     | 'AWS_ECS_ERROR'
     | 'AWS_APPLICATION_AUTO_SCALING'
@@ -4549,6 +4555,7 @@ export interface Failure {
     | 'SCM_UNEXPECTED_ERROR'
     | 'DUPLICATE_FILE_IMPORT'
     | 'AZURE_APP_SERVICES_TASK_EXCEPTION'
+    | 'AZURE_ARM_TASK_EXCEPTION'
     | 'MEDIA_NOT_SUPPORTED'
     | 'AWS_ECS_ERROR'
     | 'AWS_APPLICATION_AUTO_SCALING'
@@ -6447,6 +6454,7 @@ export type HelmChartManifest = ManifestAttributes & {
 
 export type HelmDeployStepInfo = StepSpecType & {
   delegateSelectors?: string[]
+  ignoreReleaseHistFailStatus?: boolean
 }
 
 export interface HelmManifestCommandFlag {
@@ -6653,7 +6661,7 @@ export interface InfrastructureDef {
 
 export interface InfrastructureDefinitionConfig {
   allowSimultaneousDeployments?: boolean
-  deploymentType?:
+  deploymentType:
     | 'Kubernetes'
     | 'NativeHelm'
     | 'Ssh'
@@ -6664,8 +6672,8 @@ export interface InfrastructureDefinitionConfig {
     | 'ECS'
   description?: string
   environmentRef?: string
-  identifier: string
-  name: string
+  identifier?: string
+  name?: string
   orgIdentifier?: string
   projectIdentifier?: string
   spec: Infrastructure
@@ -6704,7 +6712,7 @@ export interface InfrastructureRequestDTO {
   tags?: {
     [key: string]: string
   }
-  type?:
+  type:
     | 'KubernetesDirect'
     | 'KubernetesGcp'
     | 'KubernetesAzure'
@@ -7138,6 +7146,7 @@ export interface K8sBasicInfo {
 
 export type K8sBlueGreenStepInfo = StepSpecType & {
   delegateSelectors?: string[]
+  pruningEnabled?: boolean
   skipDryRun?: boolean
 }
 
@@ -7200,11 +7209,13 @@ export type K8sManifest = ManifestAttributes & {
 
 export type K8sRollingRollbackStepInfo = StepSpecType & {
   delegateSelectors?: string[]
+  pruningEnabled?: boolean
   skipDryRun?: boolean
 }
 
 export type K8sRollingStepInfo = StepSpecType & {
   delegateSelectors?: string[]
+  pruningEnabled?: boolean
   skipDryRun?: boolean
 }
 
@@ -7314,6 +7325,7 @@ export type KustomizePatchesManifest = ManifestAttributes & {
 export interface LDAPSettings {
   connectionSettings: LdapConnectionSettings
   cronExpression?: string
+  disabled?: boolean
   displayName: string
   groupSettingsList?: LdapGroupSettings[]
   identifier: string
@@ -7460,6 +7472,7 @@ export interface LdapResponse {
 export type LdapSettings = SSOSettings & {
   connectionSettings: LdapConnectionSettings
   cronExpression?: string
+  disabled?: boolean
   groupSettings?: LdapGroupSettings
   groupSettingsList?: LdapGroupSettings[]
   userSettings?: LdapUserSettings
@@ -7795,6 +7808,16 @@ export interface NextActionDetailDTO {
   }
 }
 
+export type Nexus2RegistryArtifactConfig = ArtifactConfig & {
+  connectorRef: string
+  metadata?: string
+  repository: string
+  repositoryFormat: 'maven' | 'npm' | 'nuget'
+  spec?: NexusRegistryConfigSpec
+  tag?: string
+  tagRegex?: string
+}
+
 export type NexusArtifactSummary = ArtifactSummary & {
   artifactPath?: string
   tag?: string
@@ -7833,11 +7856,37 @@ export type NexusRegistryArtifactConfig = ArtifactConfig & {
   connectorRef: string
   metadata?: string
   repository: string
-  repositoryFormat: 'docker'
+  repositoryFormat: 'docker' | 'maven' | 'npm' | 'nuget'
   repositoryPort?: string
   repositoryUrl?: string
+  spec?: NexusRegistryConfigSpec
   tag?: string
   tagRegex?: string
+}
+
+export interface NexusRegistryConfigSpec {
+  [key: string]: any
+}
+
+export type NexusRegistryDockerConfig = NexusRegistryConfigSpec & {
+  artifactPath: string
+  repositoryPort?: string
+  repositoryUrl?: string
+}
+
+export type NexusRegistryMavenConfig = NexusRegistryConfigSpec & {
+  artifactId: string
+  classifier?: string
+  extension?: string
+  groupId: string
+}
+
+export type NexusRegistryNpmConfig = NexusRegistryConfigSpec & {
+  packageName: string
+}
+
+export type NexusRegistryNugetConfig = NexusRegistryConfigSpec & {
+  packageName: string
 }
 
 export interface NexusRequestDTO {
@@ -8758,6 +8807,7 @@ export interface PrimaryArtifact {
     | 'Gcr'
     | 'Ecr'
     | 'Nexus3Registry'
+    | 'Nexus2Registry'
     | 'ArtifactoryRegistry'
     | 'CustomArtifact'
     | 'Acr'
@@ -10579,6 +10629,7 @@ export interface ResponseMessage {
     | 'SCM_UNEXPECTED_ERROR'
     | 'DUPLICATE_FILE_IMPORT'
     | 'AZURE_APP_SERVICES_TASK_EXCEPTION'
+    | 'AZURE_ARM_TASK_EXCEPTION'
     | 'MEDIA_NOT_SUPPORTED'
     | 'AWS_ECS_ERROR'
     | 'AWS_APPLICATION_AUTO_SCALING'
@@ -12078,6 +12129,7 @@ export interface SecretRequestWrapper {
 
 export interface SecretResourceFilterDTO {
   identifiers?: string[]
+  includeAllSecretsAccessibleAtScope?: boolean
   includeSecretsFromEverySubScope?: boolean
   searchTerm?: string
   secretTypes?: ('SecretFile' | 'SecretText' | 'SSHKey' | 'WinRmCredentials')[]
@@ -12561,6 +12613,7 @@ export interface SidecarArtifact {
     | 'Gcr'
     | 'Ecr'
     | 'Nexus3Registry'
+    | 'Nexus2Registry'
     | 'ArtifactoryRegistry'
     | 'CustomArtifact'
     | 'Acr'
@@ -19066,6 +19119,11 @@ export interface GetBuildDetailsForNexusArtifactQueryParams {
   repositoryUrl?: string
   artifactPath?: string
   connectorRef?: string
+  groupId?: string
+  artifactId?: string
+  extension?: string
+  classifier?: string
+  packageName?: string
   accountIdentifier: string
   orgIdentifier: string
   projectIdentifier: string
@@ -47588,6 +47646,7 @@ export interface ListSecretsV2QueryParams {
     | 'MONITORING'
     | 'TICKETING'
   includeSecretsFromEverySubScope?: boolean
+  includeAllSecretsAccessibleAtScope?: boolean
   pageIndex?: number
   pageSize?: number
 }

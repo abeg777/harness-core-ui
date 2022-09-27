@@ -1012,6 +1012,8 @@ export interface StringsMap {
   'rbac.account': string
   'rbac.accountScope': string
   'rbac.activeUsers': string
+  'rbac.addResourceModal.modalCtaLabelPlural': string
+  'rbac.addResourceModal.modalCtaLabelSingular': string
   'rbac.addResourceModal.selectedText': string
   'rbac.addRole': string
   'rbac.addUser': string
@@ -1358,6 +1360,7 @@ export interface StringsMap {
   'delegates.reviewScript.docLinkAfter': string
   'delegates.reviewScript.docLinkBefore': string
   'delegates.reviewYAML': string
+  'delegates.runAsRoot': string
   'delegates.selectors': string
   'delegates.successVerification.addHelmRepoCmd': string
   'delegates.successVerification.addHelmRepoLabel': string
@@ -1530,6 +1533,7 @@ export interface StringsMap {
   'authSettings.allowUsersWithEmails': string
   'authSettings.atLeastNChars': string
   'authSettings.authenticationSettings': string
+  'authSettings.authorizationEnabled': string
   'authSettings.authorizationEnabledFor': string
   'authSettings.authorizationNotEnabled': string
   'authSettings.autoRenewal': string
@@ -2348,7 +2352,6 @@ export interface StringsMap {
   'connectors.hashiCorpVault.k8sAuthEndpoint': string
   'connectors.hashiCorpVault.k8s_auth': string
   'connectors.hashiCorpVault.manuallyConfigureEngine': string
-  'connectors.hashiCorpVault.preventDefaultWhenReadOnly': string
   'connectors.hashiCorpVault.readOnly': string
   'connectors.hashiCorpVault.readOnlyVault': string
   'connectors.hashiCorpVault.renewal': string
@@ -2438,6 +2441,7 @@ export interface StringsMap {
   'connectors.newRelic.urlValidation': string
   'connectors.newRelicConnectorDetails': string
   'connectors.newRelicLabel': string
+  'connectors.nexus.nexus2Label': string
   'connectors.nexus.nexusLabel': string
   'connectors.nexus.nexusServerUrl': string
   'connectors.oAuth.accessRevoked': string
@@ -2984,22 +2988,30 @@ export interface StringsMap {
   'pipeline.artifactsSelection.artifactDetails': string
   'pipeline.artifactsSelection.artifactDirectory': string
   'pipeline.artifactsSelection.artifactDirectoryPlaceholder': string
+  'pipeline.artifactsSelection.artifactId': string
+  'pipeline.artifactsSelection.artifactIdPlaceholder': string
   'pipeline.artifactsSelection.artifactPathPlaceholder': string
   'pipeline.artifactsSelection.artifactSourceName': string
   'pipeline.artifactsSelection.artifactType': string
   'pipeline.artifactsSelection.artifactTyperequired': string
   'pipeline.artifactsSelection.artifactsArrayPath': string
   'pipeline.artifactsSelection.azureArtifactRegistryTitle': string
+  'pipeline.artifactsSelection.classifier': string
+  'pipeline.artifactsSelection.classifierPlaceholder': string
   'pipeline.artifactsSelection.delegateselectionPlaceholder': string
   'pipeline.artifactsSelection.errors.noRepositories': string
   'pipeline.artifactsSelection.existingDocker.enterTagRegex': string
   'pipeline.artifactsSelection.existingDocker.imageNamePlaceholder': string
   'pipeline.artifactsSelection.existingDocker.sidecarId': string
   'pipeline.artifactsSelection.existingDocker.sidecarIdPlaceholder': string
+  'pipeline.artifactsSelection.extension': string
+  'pipeline.artifactsSelection.extensionPlaceholder': string
   'pipeline.artifactsSelection.filePathRegexLabel': string
   'pipeline.artifactsSelection.filePathRegexPlaceholder': string
   'pipeline.artifactsSelection.githubPackageRegistryTitle': string
   'pipeline.artifactsSelection.googleArtifactRegistryTitle': string
+  'pipeline.artifactsSelection.groupId': string
+  'pipeline.artifactsSelection.groupIdPlaceholder': string
   'pipeline.artifactsSelection.loadingArtifactPaths': string
   'pipeline.artifactsSelection.loadingTags': string
   'pipeline.artifactsSelection.orgNamePlaceholder': string
@@ -3010,14 +3022,17 @@ export interface StringsMap {
   'pipeline.artifactsSelection.repositoryPortPlaceholder': string
   'pipeline.artifactsSelection.repositoryTypePlaceholder': string
   'pipeline.artifactsSelection.validation.artifactDirectory': string
+  'pipeline.artifactsSelection.validation.artifactId': string
   'pipeline.artifactsSelection.validation.artifactPath': string
   'pipeline.artifactsSelection.validation.artifactPathFilter': string
   'pipeline.artifactsSelection.validation.filePathRegex': string
+  'pipeline.artifactsSelection.validation.groupId': string
   'pipeline.artifactsSelection.validation.imagePath': string
   'pipeline.artifactsSelection.validation.noBuild': string
   'pipeline.artifactsSelection.validation.packageName': string
   'pipeline.artifactsSelection.validation.packageType': string
   'pipeline.artifactsSelection.validation.region': string
+  'pipeline.artifactsSelection.validation.repositoryFormat': string
   'pipeline.artifactsSelection.validation.repositoryPort': string
   'pipeline.artifactsSelection.validation.repositoryType': string
   'pipeline.artifactsSelection.validation.repositoryUrl': string
@@ -3153,6 +3168,7 @@ export interface StringsMap {
   'pipeline.customDeployment.infraVariablesTitle': string
   'pipeline.customDeployment.jsonPathRelativeLabel': string
   'pipeline.customDeployment.newAttribute': string
+  'pipeline.customDeployment.seeOnlyTemplatesFor': string
   'pipeline.customDeployment.validations.nameUnique': string
   'pipeline.dashboardDeploymentsWidget.failed24Hrs.plural': string
   'pipeline.dashboardDeploymentsWidget.failed24Hrs.singular': string
@@ -3922,6 +3938,7 @@ export interface StringsMap {
   'pipeline.stepDescription.TerraformRollback': string
   'pipeline.stepDescription.Verify': string
   'pipeline.stepDescription.createPR': string
+  'pipeline.stepDescription.fetchInstanceScript': string
   'pipeline.stepDescription.mergePR': string
   'pipeline.stepDetails': string
   'pipeline.stepLabel': string
@@ -4074,7 +4091,9 @@ export interface StringsMap {
   'pipeline.viewLatestExecution': string
   'pipeline.viewPipeline': string
   'pipeline.warningForInvalidYAMLDiscard': string
-  'freezeWindows.freezeWindowsPage.freezeConfiguration': string
+  'freezeWindows.freezeStudio.defineResources': string
+  'freezeWindows.freezeStudio.freezeConfiguration': string
+  'freezeWindows.freezeStudio.freezeOverview': string
   'freezeWindows.freezeWindowsPage.newFreezeWindow': string
   'freezeWindows.freezeWindowsPage.noFreezeWindows': string
   'templatesLibrary.addNewTemplate': string
@@ -4281,8 +4300,10 @@ export interface StringsMap {
   'cd.artifactFormErrors.artifactName': string
   'cd.artifactFormErrors.repositoryName': string
   'cd.artifactName': string
+  'cd.artifactPath': string
   'cd.artifactPaths': string
   'cd.artifactRepoTooltip': string
+  'cd.artifactVersion': string
   'cd.attributeFilters': string
   'cd.awsCli': string
   'cd.azureArm.description': string
@@ -4399,7 +4420,6 @@ export interface StringsMap {
   'cd.delegateFailText1': string
   'cd.delegateFailText2': string
   'cd.delegateFailed': string
-  'cd.delegateInstallBtnText': string
   'cd.delegateInstallCommand': string
   'cd.delegateInstallation': string
   'cd.delegateSuccess': string
@@ -4471,6 +4491,7 @@ export interface StringsMap {
   'cd.harnessManagedGitOpsWizardTitle': string
   'cd.hostFilters': string
   'cd.hosts': string
+  'cd.ignoreReleaseHistFailStatus': string
   'cd.infrastructure.createNew': string
   'cd.infrastructure.created': string
   'cd.infrastructure.delete': string
@@ -4604,6 +4625,7 @@ export interface StringsMap {
   'cd.serviceDashboard.artifact': string
   'cd.serviceDashboard.awsRegion': string
   'cd.serviceDashboard.buildName': string
+  'cd.serviceDashboard.containerList': string
   'cd.serviceDashboard.deployedAt': string
   'cd.serviceDashboard.deployedBy': string
   'cd.serviceDashboard.deploymentDetails': string
@@ -6071,7 +6093,6 @@ export interface StringsMap {
   'cf.featureFlags.flagPipeline.flagState': string
   'cf.featureFlags.flagPipeline.noAvailablePipelinesDescription': string
   'cf.featureFlags.flagPipeline.noAvailablePipelinesMessage': string
-  'cf.featureFlags.flagPipeline.noDataButtonText': string
   'cf.featureFlags.flagPipeline.noDataDescription': string
   'cf.featureFlags.flagPipeline.noDataMessage': string
   'cf.featureFlags.flagPipeline.noExecutionDescription': string

@@ -259,7 +259,7 @@ function Artifactory({
       selectedArtifact as ArtifactType,
       isIdentifierAllowed,
       isGenericArtifactory
-    )
+    ) as ImagePathTypes
   }, [initialValues, selectedArtifact, isIdentifierAllowed, isGenericArtifactory])
 
   const submitFormData = (formData: ImagePathTypes & { connectorId?: string }): void => {
@@ -374,13 +374,7 @@ function Artifactory({
 
                 {isGenericArtifactory ? (
                   <ServerlessArtifactoryRepository
-                    connectorRef={
-                      getMultiTypeFromValue(prevStepData?.connectorId) === MultiTypeInputType.RUNTIME
-                        ? prevStepData?.connectorId
-                        : prevStepData?.connectorId?.value
-                        ? prevStepData.connectorId.value
-                        : prevStepData?.connectorId
-                    }
+                    connectorRef={getConnectorIdValue(prevStepData)}
                     isReadonly={isReadonly}
                     expressions={expressions}
                     allowableTypes={allowableTypes}

@@ -9,11 +9,16 @@ import { clone, isUndefined } from 'lodash-es'
 import type { YamlBuilderHandlerBinding } from '@common/interfaces/YAMLBuilderProps'
 import { ActionReturnType, FreezeWindowActions } from './FreezeWidowActions'
 
-const DefaultFreezeId = '-1'
+export const DefaultFreezeId = '-1'
 
 export const DefaultFreeze = {
   name: '',
-  identifier: DefaultFreezeId
+  identifier: DefaultFreezeId,
+  entityConfigs: [
+    { entity: { rule: 'Rule 1 - Weekend Freeze' } },
+    { entity: { rule: 'Rule 2 - Diwali Freeze' } },
+    { entity: { rule: 'Rule 3 - Black Friday' } }
+  ]
 }
 
 export interface FreezeWindowReducerState {
@@ -41,7 +46,7 @@ export const FreezeReducer = (state: FreezeWindowReducerState, data: ActionRetur
       return {
         ...state,
         isUpdated: isUndefined(response?.isUpdated) ? true : (response?.isUpdated as boolean),
-        freezeObj: (response ? clone(response) : state.freezeObj) as Record<string, unknown>
+        freezeObj: (response ? clone({ ...state.freezeObj, ...response }) : state.freezeObj) as Record<string, unknown>
       }
     }
     case FreezeWindowActions.Success: {
