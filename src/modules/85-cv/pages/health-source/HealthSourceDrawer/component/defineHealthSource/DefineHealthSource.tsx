@@ -57,7 +57,6 @@ function DefineHealthSource(props: DefineHealthSourceProps): JSX.Element {
 
   const isSplunkMetricEnabled = useFeatureFlag(FeatureFlag.CVNG_SPLUNK_METRICS)
 
-
   const isErrorTrackingEnabled = useFeatureFlag(FeatureFlag.CVNG_ENABLED)
   const isElkEnabled = useFeatureFlag(FeatureFlag.ELK_HEALTH_SOURCE)
 
