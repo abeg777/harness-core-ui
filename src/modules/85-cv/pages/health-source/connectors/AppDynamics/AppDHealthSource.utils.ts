@@ -14,8 +14,7 @@ import type {
   AppDMetricDefinitions,
   AppDynamicsHealthSourceSpec,
   AppdynamicsValidationResponse,
-  MetricPackDTO,
-  RiskProfile
+  MetricPackDTO
 } from 'services/cv'
 import type { SelectOption } from '@pipeline/components/PipelineSteps/Steps/StepsTypes'
 import { isMultiTypeRuntime } from '@common/utils/utils'
@@ -42,6 +41,7 @@ import {
   getMetricPacksForPayload,
   validateCommonFieldsForMetricThreshold
 } from '../../common/MetricThresholds/MetricThresholds.utils'
+import { createPayloadForAssignComponent } from '../../common/utils/HealthSource.utils'
 
 export const convertStringBasePathToObject = (baseFolder: string | BasePathData): BasePathData => {
   let basePathObj = {} as any
@@ -462,17 +462,14 @@ export const createAppDynamicsPayload = (
         formData.appDTier
       )
 
-      const [category, metricType] = riskCategory?.split('/') || []
-      const thresholdTypes: RiskProfile['thresholdTypes'] = []
-
-      if (lowerBaselineDeviation) {
-        thresholdTypes.push('ACT_WHEN_LOWER')
-      }
-      if (higherBaselineDeviation) {
-        thresholdTypes.push('ACT_WHEN_HIGHER')
-      }
-
-      const ifOnlySliIsSelected = Boolean(sli) && !(Boolean(healthScore) || Boolean(continuousVerification))
+      const assignComponentPayload = createPayloadForAssignComponent({
+        sli,
+        riskCategory,
+        healthScore,
+        continuousVerification,
+        lowerBaselineDeviation,
+        higherBaselineDeviation
+      })
 
       specPayload?.metricDefinitions?.push({
         identifier: metricIdentifier,
@@ -481,17 +478,13 @@ export const createAppDynamicsPayload = (
         metricPath: derivedMetricPath,
         completeMetricPath,
         groupName: groupName?.value as string,
-        sli: { enabled: Boolean(sli) },
+        ...assignComponentPayload,
         analysis: {
-          riskProfile: ifOnlySliIsSelected
-            ? {}
-            : {
-                category,
-                metricType,
-                thresholdTypes
-              },
-          liveMonitoring: { enabled: Boolean(healthScore) },
-          deploymentVerification: { enabled: Boolean(continuousVerification), serviceInstanceMetricPath }
+          ...assignComponentPayload.analysis,
+          deploymentVerification: {
+            ...assignComponentPayload.analysis?.deploymentVerification,
+            serviceInstanceMetricPath
+          }
         }
       })
     }
@@ -641,7 +634,7 @@ export const setAppDynamicsApplication = (
   if (multiType === MultiTypeInputType.EXPRESSION) {
     return appdApplication
   }
-  return value
+  return multiType ? value : value || { label: '', value: '' }
 }
 
 export const setAppDynamicsTier = (
@@ -649,7 +642,7 @@ export const setAppDynamicsTier = (
   appDTier: string,
   tierOptions: SelectOption[],
   multiType?: MultiTypeInputType
-) => {
+): SelectOption | string | undefined => {
   const value = tierLoading || !appDTier ? undefined : tierOptions.find((item: SelectOption) => item.label === appDTier)
   if (multiType && isMultiTypeRuntime(multiType)) {
     return appDTier
@@ -657,7 +650,7 @@ export const setAppDynamicsTier = (
   if (multiType === MultiTypeInputType.EXPRESSION) {
     return appDTier
   }
-  return value
+  return multiType ? value : value || { label: '', value: '' }
 }
 
 export const initAppDCustomFormValue = () => {
@@ -755,8 +748,7 @@ export const persistCustomMetric = ({
   selectedMetric,
   nonCustomFeilds,
   formikValues,
-  setMappedMetrics,
-  isTemplate
+  setMappedMetrics
 }: PersistCustomMetricInterface): void => {
   const mapValue = mappedMetrics.get(selectedMetric) as MapAppDynamicsMetric
   if (!isEmpty(mapValue)) {
@@ -768,17 +760,8 @@ export const persistCustomMetric = ({
       ignoreThresholds: mapValue?.ignoreThresholds,
       failFastThresholds: mapValue?.failFastThresholds
     }
-    const areAllFilled =
-      nonCustomValuesFromSelectedMetric.appdApplication &&
-      nonCustomValuesFromSelectedMetric.appDTier &&
-      nonCustomValuesFromSelectedMetric.metricData
 
-    const shouldUpdate = isTemplate ? isTemplate : areAllFilled
-    if (
-      shouldUpdate &&
-      selectedMetric === formikValues?.metricName &&
-      !isEqual(nonCustomFeilds, nonCustomValuesFromSelectedMetric)
-    ) {
+    if (selectedMetric === formikValues?.metricName && !isEqual(nonCustomFeilds, nonCustomValuesFromSelectedMetric)) {
       const clonedMappedMetrics = cloneDeep(mappedMetrics)
       clonedMappedMetrics.forEach((data, key) => {
         if (selectedMetric === data.metricName) {

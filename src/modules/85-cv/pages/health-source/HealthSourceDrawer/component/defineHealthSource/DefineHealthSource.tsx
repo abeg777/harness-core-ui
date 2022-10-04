@@ -34,10 +34,19 @@ import { HealthSourceTypes } from '@cv/pages/health-source/types'
 import { FormMultiTypeConnectorField } from '@connectors/components/ConnectorReferenceField/FormMultiTypeConnectorField'
 import { AllMultiTypeInputTypesForStep } from '@ci/components/PipelineSteps/CIStep/StepUtils'
 import { FormConnectorReferenceField } from '@connectors/components/ConnectorReferenceField/FormConnectorReferenceField'
-import { healthSourceTypeMapping } from '@cv/pages/monitored-service/MonitoredServiceInputSetsTemplate/MonitoredServiceInputSetsTemplate.utils'
+import {
+  healthSourceTypeMapping,
+  healthSourceTypeMappingForReferenceField
+} from '@cv/pages/monitored-service/MonitoredServiceInputSetsTemplate/MonitoredServiceInputSetsTemplate.utils'
 import CardWithOuterTitle from '@common/components/CardWithOuterTitle/CardWithOuterTitle'
 import { ConnectorRefFieldName, HEALTHSOURCE_LIST } from './DefineHealthSource.constant'
-import { getFeatureOption, getInitialValues, validate, validateDuplicateIdentifier } from './DefineHealthSource.utils'
+import {
+  getFeatureOption,
+  getInitialValues,
+  validate,
+  validateDuplicateIdentifier,
+  getConnectorTypeName
+} from './DefineHealthSource.utils'
 import css from './DefineHealthSource.module.scss'
 
 interface DefineHealthSourceProps {
@@ -60,6 +69,8 @@ function DefineHealthSource(props: DefineHealthSourceProps): JSX.Element {
   const isErrorTrackingEnabled = useFeatureFlag(FeatureFlag.CVNG_ENABLED)
   const isElkEnabled = useFeatureFlag(FeatureFlag.ELK_HEALTH_SOURCE)
 
+  const isCloudWatchEnabled = useFeatureFlag(FeatureFlag.SRM_ENABLE_HEALTHSOURCE_CLOUDWATCH_METRICS)
+
   const disabledByFF: string[] = useMemo(() => {
     const disabledConnectorsList = []
 
@@ -71,8 +82,11 @@ function DefineHealthSource(props: DefineHealthSourceProps): JSX.Element {
       disabledConnectorsList.push(HealthSourceTypes.Elk)
     }
 
+    if (!isCloudWatchEnabled) {
+      disabledConnectorsList.push(HealthSourceTypes.CloudWatch)
+    }
     return disabledConnectorsList
-  }, [isErrorTrackingEnabled, isElkEnabled])
+  }, [isErrorTrackingEnabled, isElkEnabled, isCloudWatchEnabled])
 
   const initialValues = useMemo(() => {
     return getInitialValues(sourceData, getString)
@@ -125,7 +139,7 @@ function DefineHealthSource(props: DefineHealthSourceProps): JSX.Element {
         <FormConnectorReferenceField
           width={400}
           formik={formik}
-          type={formik?.values?.sourceType}
+          type={healthSourceTypeMappingForReferenceField(formik?.values?.sourceType)}
           name={ConnectorRefFieldName}
           label={
             <Text color={Color.BLACK} font={'small'} margin={{ bottom: 'small' }}>
@@ -203,8 +217,8 @@ function DefineHealthSource(props: DefineHealthSourceProps): JSX.Element {
                         >
                           {HEALTHSOURCE_LIST.filter(({ name }) => !disabledByFF.includes(name)).map(
                             ({ name, icon }) => {
-                              const connectorTypeName =
-                                name === HealthSourceTypes.GoogleCloudOperations ? Connectors.GCP : name
+                              const connectorTypeName = getConnectorTypeName(name)
+
                               return (
                                 <div key={name} className={cx(css.squareCardContainer, isEdit && css.disabled)}>
                                   <Card
