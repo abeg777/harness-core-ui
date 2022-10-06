@@ -6,8 +6,8 @@
  */
 
 import React from 'react'
-import { TestWrapper } from '@common/utils/testUtils'
 import { render } from '@testing-library/react'
+import { TestWrapper } from '@common/utils/testUtils'
 import { CVCodeErrors } from '../CVCodeErrors'
 
 const WrapperComponent = (): React.ReactElement => {
