@@ -6,9 +6,8 @@
  */
 
 import React from 'react'
-import { render } from '@testing-library/react'
 import { TestWrapper } from '@common/utils/testUtils'
-import { useFeatureFlags } from '@common/hooks/useFeatureFlag'
+import { render } from '@testing-library/react'
 import { CVCodeErrors } from '../CVCodeErrors'
 
 const WrapperComponent = (): React.ReactElement => {
@@ -20,9 +19,8 @@ const WrapperComponent = (): React.ReactElement => {
 }
 
 describe('Unit tests for CVCodeErrors', () => {
-  const { SRM_ET_EXPERIMENTAL } = useFeatureFlags()
   test('Verify CodeErrors page renders and matches snapshot', async () => {
     const container = render(<WrapperComponent />)
-    if (SRM_ET_EXPERIMENTAL) expect(container).toMatchSnapshot()
+    expect(container).toMatchSnapshot()
   })
 })
