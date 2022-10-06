@@ -29,6 +29,6 @@ describe('Unit tests for CVCodeErrors', () => {
     const useFeatureFlags = jest.spyOn(hooks, 'useFeatureFlag')
     useFeatureFlags.mockReturnValue(true)
     const container = render(<WrapperComponent />)
-    expect(container).not.toBeEmptyDOMElement()
+    expect(container).not.toBeNull()
   })
 })
