@@ -8,6 +8,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { TestWrapper } from '@common/utils/testUtils'
+import * as hooks from '@common/hooks/useFeatureFlag'
 import { CVCodeErrors } from '../CVCodeErrors'
 
 const WrapperComponent = (): React.ReactElement => {
@@ -22,5 +23,12 @@ describe('Unit tests for CVCodeErrors', () => {
   test('Verify CodeErrors page renders and matches snapshot', async () => {
     const container = render(<WrapperComponent />)
     expect(container).toMatchSnapshot()
+  })
+
+  test('Verify CodeErrors page enabled is not empty ', async () => {
+    const useFeatureFlags = jest.spyOn(hooks, 'useFeatureFlag')
+    useFeatureFlags.mockReturnValue(true)
+    const container = render(<WrapperComponent />)
+    expect(container).not.toBeEmptyDOMElement()
   })
 })
