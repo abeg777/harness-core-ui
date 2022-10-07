@@ -44,6 +44,6 @@ describe('Unit tests for CVCodeErrors', () => {
   })
   
   test('Verify routing does not throw error', async () => {
-    expect(routes.toErrorTracking({ ...accountPathProps, ...orgPathProps, ...projectPathProps })).not.toThrow()
+    expect(() => routes.toErrorTracking({ ...accountPathProps, ...orgPathProps, ...projectPathProps })).not.toThrow()
   })
 })
