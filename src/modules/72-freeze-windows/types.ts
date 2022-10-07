@@ -48,22 +48,26 @@ export interface WindowPathProps extends ProjectPathProps {
   windowIdentifier: string
 }
 
+export type ProjctsByOrgId = { projects: SelectOption[]; projectsMap: Record<string, SelectOption> }
+
 export interface ResourcesInterface {
   orgs: SelectOption[]
+  orgsMap: Record<string, SelectOption>
   projects: SelectOption[]
   projectsMap: Record<string, SelectOption>
   services: SelectOption[]
   servicesMap: Record<string, SelectOption>
   freezeWindowLevel: FreezeWindowLevels
+  projectsByOrgId: Record<string, ProjctsByOrgId>
 }
 
 type OptionalFreezeListUrlQueryParams = Pick<GetFreezeListQueryParams, 'page' | 'size'> &
-  Pick<FreezeFilterPropertiesDTO, 'freezeStatus' | 'searchTerm' | 'sort' | 'startTime' | 'endTime'>
+  Pick<FreezeFilterPropertiesDTO, 'freezeStatus' | 'searchTerm' | 'sort'> & {
+    startTime?: number
+    endTime?: number
+  }
 
-export type FreezeListUrlQueryParams = PartiallyRequired<
-  OptionalFreezeListUrlQueryParams,
-  'page' | 'size' | 'sort' | 'startTime' | 'endTime'
->
+export type FreezeListUrlQueryParams = PartiallyRequired<OptionalFreezeListUrlQueryParams, 'page' | 'size' | 'sort'>
 
 export interface SortBy {
   sort: 'lastUpdatedAt' | 'name'

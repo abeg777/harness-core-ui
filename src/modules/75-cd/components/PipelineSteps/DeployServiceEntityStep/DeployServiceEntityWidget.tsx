@@ -146,7 +146,7 @@ export default function DeployServiceEntityWidget({
   const { templateRef: deploymentTemplateIdentifier, versionLabel } =
     (get(stage, 'stage.spec.customDeploymentRef') as TemplateLinkConfig) || {}
   const shouldAddCustomDeploymentData =
-    deploymentType === ServiceDeploymentType.CustomDeployment && deploymentTemplateIdentifier && versionLabel
+    deploymentType === ServiceDeploymentType.CustomDeployment && deploymentTemplateIdentifier
 
   const {
     servicesData,
@@ -476,7 +476,7 @@ export default function DeployServiceEntityWidget({
                   />
                 ) : null}
 
-                {isFixed ? (
+                {isFixed && formik?.values?.serviceInputs ? (
                   <ServiceEntitiesList
                     loading={loading || updatingData}
                     servicesData={allServices.length > 0 ? servicesData : []}

@@ -114,8 +114,7 @@ const Content = (props: AmazonS3ContentProps): JSX.Element => {
     loading,
     refetch: refetchBuckets
   } = useGetV2BucketListForS3({
-    lazy: true,
-    debounce: 300
+    lazy: true
   })
 
   const fetchBuckets = (): void => {
@@ -237,6 +236,7 @@ const Content = (props: AmazonS3ContentProps): JSX.Element => {
               name={`${path}.artifacts.${artifactPath}.spec.region`}
               selectItems={regions}
               useValue
+              disabled={(!fromTrigger && isFieldDisabled(`artifacts.${artifactPath}.spec.region`)) || loading}
               multiTypeInputProps={{
                 onChange: selected => {
                   if (
@@ -263,7 +263,7 @@ const Content = (props: AmazonS3ContentProps): JSX.Element => {
                   )
                 }
               }}
-              label={getString('regionLabel')}
+              label={getString('optionalField', { name: getString('regionLabel') })}
               placeholder={loadingRegions ? getString('loading') : getString('select')}
             />
           )}

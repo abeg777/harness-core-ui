@@ -89,6 +89,9 @@ terraformStep:
   workspace: Enter Workspace
 kubernetesStep:
   workload: Enter Workload
+waitStep:
+  validation:
+    duration10SecMinimum: 'Minimum Duration is 10 seconds'
 approvalStep:
   message: 'Approval Message'
   approvers: 'Approver(s)'
@@ -348,6 +351,7 @@ manifestType:
   serverlessConfigFilePath: Serverless Config File Path
   serverlessConfigFilePathPlaceholder: Enter Serverless Config File Path
   valuesYamlPath: Values.yaml
+  addValuesYamlPath: Add Values.yaml
   customRemoteExtractionScript: Custom Remote Manifest Extraction Script
   customRemoteExtractedFileLocation: Extracted Manifest File Location
   customRemoteExtractedFileLocationPlaceholder: Enter Extracted Manifest File Location
@@ -417,7 +421,7 @@ failureStrategies:
     DelegateProvisioning: Delegate Provisioning Errors
     Unknown: Unknown Errors
     PolicyEvaluationFailure: Policy Evaluation Failures
-    ExecutionInputTimeoutError: Execution-time Inputs Timeout Errors
+    InputTimeoutError: Execution-time Inputs Timeout Errors
   validation:
     arrayOrUndefined: Value must be an array if defined.
     strategyRequired: 'At least 1 strategy is required'
@@ -1035,6 +1039,7 @@ stepDescription:
   ServerlessLambdaRollback: Deploy the previous successful version as a new version.
   createPR: Create PR
   mergePR: Merge PR
+  updateReleaseRepo: Update Release Repo
   fetchInstanceScript: Fetch Instances
   AzureSlotDeployment: Select the Web App and source and target deployment slots for the deployment.
   CustomApproval: Custom Approval
@@ -1102,6 +1107,7 @@ deploymentFrequency: 'Deployment Frequency'
 executionFrequency: 'Execution Frequency'
 retryPipeline: Retry Failed Pipeline
 openInNewTab: Open in new tab
+openPipelineInNewTab: Open Pipeline in new tab
 stagetoRetryFrom: Select the stage that you would like to resume from
 runAllParallelstages: Run all parallel stages
 runFailedStages: Run only failed stages
@@ -1333,6 +1339,7 @@ appServiceConfig:
     fileSource: '{{$.pipeline.appServiceConfig.applicationSettings.name}} File Source'
     filePath: '{{$.pipeline.appServiceConfig.applicationSettings.name}} File Path'
     subtitle: 'Specify {{$.pipeline.appServiceConfig.applicationSettings.name}} Script File Type'
+    overrides: '{{$.pipeline.appServiceConfig.applicationSettings.name}} Overrides'
   connectionStrings:
     name: Connection Strings
     file: '{{$.pipeline.appServiceConfig.connectionStrings.name}} File'
@@ -1340,6 +1347,7 @@ appServiceConfig:
     fileSource: '{{$.pipeline.appServiceConfig.connectionStrings.name}} File Source'
     filePath: '{{$.pipeline.appServiceConfig.connectionStrings.name}} File Path'
     subtitle: 'Specify {{$.pipeline.appServiceConfig.connectionStrings.name}} Script File Type'
+    overrides: '{{$.pipeline.appServiceConfig.connectionStrings.name}} Overrides'
 startupCommand:
   name: Startup Command
   subtitle: 'Specify Azure Web App Startup Command Store Type'

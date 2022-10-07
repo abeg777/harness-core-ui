@@ -8,7 +8,10 @@
 import React from 'react'
 import { Spinner } from '@blueprintjs/core'
 import { useHistory, useParams } from 'react-router-dom'
-import { Button, ButtonVariation, Container, getErrorInfoFromErrorObject, useToaster } from '@wings-software/uicore'
+import { ButtonVariation, Container, getErrorInfoFromErrorObject, useToaster } from '@wings-software/uicore'
+import RbacButton from '@rbac/components/Button/Button'
+import { PermissionIdentifier } from '@rbac/interfaces/PermissionIdentifier'
+import { ResourceType } from '@rbac/interfaces/ResourceType'
 import { useCreateFreeze, useUpdateFreeze } from 'services/cd-ng'
 import { useStrings } from 'framework/strings'
 import { yamlStringify } from '@common/utils/YamlHelperMethods'
@@ -24,7 +27,7 @@ export const SaveFreezeButton = () => {
   const { showSuccess, showError, clear } = useToaster()
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
   const {
-    state: { freezeObj },
+    state: { freezeObj, isUpdated },
     refetchFreezeObj
   } = React.useContext(FreezeWindowContext)
   const {
@@ -118,7 +121,24 @@ export const SaveFreezeButton = () => {
 
   return (
     <div>
-      <Button variation={ButtonVariation.PRIMARY} text={getString('save')} icon="send-data" onClick={onSave} />
+      <RbacButton
+        disabled={!isUpdated}
+        variation={ButtonVariation.PRIMARY}
+        text={getString('save')}
+        icon="send-data"
+        onClick={onSave}
+        permission={{
+          permission: PermissionIdentifier.MANAGE_DEPLOYMENT_FREEZE,
+          resource: {
+            resourceType: ResourceType.DEPLOYMENTFREEZE
+          },
+          resourceScope: {
+            accountIdentifier,
+            orgIdentifier,
+            projectIdentifier
+          }
+        }}
+      />
     </div>
   )
 }

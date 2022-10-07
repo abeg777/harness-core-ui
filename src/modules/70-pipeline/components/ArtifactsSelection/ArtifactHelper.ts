@@ -63,7 +63,8 @@ export const ArtifactIconByType: Record<ArtifactType, IconName> = {
   AmazonS3: 'service-service-s3',
   GoogleArtifactRegistry: 'service-gar',
   GithubPackageRegistry: 'service-github',
-  AzureArtifactsRegistry: 'service-github'
+  AzureArtifacts: 'service-github',
+  AmazonMachineImage: 'service-github'
 }
 
 export const ArtifactTitleIdByType: Record<ArtifactType, StringKeys> = {
@@ -79,7 +80,8 @@ export const ArtifactTitleIdByType: Record<ArtifactType, StringKeys> = {
   AmazonS3: 'pipeline.artifactsSelection.amazonS3Title',
   GoogleArtifactRegistry: 'pipeline.artifactsSelection.googleArtifactRegistryTitle',
   GithubPackageRegistry: 'pipeline.artifactsSelection.githubPackageRegistryTitle',
-  AzureArtifactsRegistry: 'pipeline.artifactsSelection.azureArtifactRegistryTitle'
+  AzureArtifacts: 'pipeline.artifactsSelection.azureArtifactRegistryTitle',
+  AmazonMachineImage: 'pipeline.artifactsSelection.azureArtifactRegistryTitle'
 }
 
 export const ENABLED_ARTIFACT_TYPES: { [key: string]: ArtifactType } = {

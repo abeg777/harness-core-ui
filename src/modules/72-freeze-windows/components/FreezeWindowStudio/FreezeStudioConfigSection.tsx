@@ -36,7 +36,8 @@ import {
   FieldVisibility,
   getEmptyEntityConfig,
   getFieldsVisibility,
-  getInitialValuesForConfigSection
+  getInitialValuesForConfigSection,
+  getValidationSchema
 } from './FreezeWindowStudioUtil'
 import {
   EnvironmentTypeRenderer,
@@ -207,6 +208,11 @@ const ConfigRenderer = ({
   const saveEntity = async () => {
     const formErrors = await formikProps.validateForm()
     if (!isEmpty(formErrors?.entity?.[index])) {
+      formikProps.setErrors(formErrors)
+      const errorKeys = Object.keys(formErrors.entity[index])
+      const newTouchedObj: { [key: string]: boolean } = {}
+      errorKeys.forEach(k => (newTouchedObj[`entity[${index}].${k}`] = true))
+      formikProps.setTouched({ ...formikProps.touched, ...newTouchedObj }) // required to display
       return
     }
     const values = formikProps.values.entity
@@ -282,7 +288,12 @@ const ConfigsSection = ({
   )
   React.useEffect(() => {
     setInitialValues(getInitialValuesForConfigSection(entityConfigs, getString, resources))
-  }, [])
+  }, [
+    resources.orgs.length,
+    resources.projects.length,
+    resources.services.length,
+    Object.keys(resources.projectsByOrgId).length
+  ])
 
   React.useEffect(() => {
     if (editViews.length === 0 && entityConfigs.length > 0) {
@@ -338,7 +349,8 @@ const ConfigsSection = ({
         validationSchema={Yup.object().shape({
           entity: Yup.array().of(
             Yup.object().shape({
-              name: Yup.string().required('Name is required')
+              name: Yup.string().required('Name is required'),
+              ...getValidationSchema(fieldsVisibility.freezeWindowLevel)
             })
           )
         })}
