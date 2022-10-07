@@ -49,9 +49,9 @@ export const CVCodeErrors = (): JSX.Element => {
           orgId={orgIdentifier}
           accountId={accountId}
           projectId={projectIdentifier}
-          serviceId={'CIHotFixSept8th'}
-          environmentId={'_INTERNAL_ET_CI'}
-          versionId={'1'}
+          serviceId={''}
+          environmentId={''}
+          versionId={''}
           fromDateTime={prevDate}
           toDateTime={nextDate}
           toBaseRouteDefinition={() =>
