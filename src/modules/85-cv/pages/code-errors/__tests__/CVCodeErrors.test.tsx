@@ -9,6 +9,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import routes from '@common/RouteDefinitions'
 import { TestWrapper, TestWrapperProps } from '@common/utils/testUtils'
+import type { EventListProps } from '@et/ErrorTrackingApp'
 import { accountPathProps, orgPathProps, projectPathProps } from '@common/utils/routeUtils'
 import * as hooks from '@common/hooks/useFeatureFlag'
 import { CVCodeErrors } from '../CVCodeErrors'
@@ -30,6 +31,23 @@ const WrapperComponent = (): React.ReactElement => {
   )
 }
 
+const eventListPropsMock: EventListProps = {
+  orgId: 'test_org',
+  accountId: 'test_accountId',
+  projectId: 'test_project',
+  serviceId: '',
+  environmentId: '',
+  versionId: '',
+  fromDateTime: Math.floor(1663004761599 / 1000),
+  toDateTime: Math.floor(1663005557559 / 1000 + 60 * 30),
+  toBaseRouteDefinition: () =>
+    routes.toErrorTracking({
+      ...accountPathProps,
+      ...orgPathProps,
+      ...projectPathProps
+    })
+}
+
 describe('Unit tests for CVCodeErrors', () => {
   test('Verify CodeErrors page renders and matches snapshot', async () => {
     const container = render(<WrapperComponent />)
@@ -42,8 +60,8 @@ describe('Unit tests for CVCodeErrors', () => {
     const container = render(<WrapperComponent />)
     expect(container).not.toBeNull()
   })
-  
+
   test('Verify routing does not throw error', async () => {
-    expect(() => routes.toErrorTracking({ ...accountPathProps, ...orgPathProps, ...projectPathProps })).not.toThrow()
+    if (eventListPropsMock.toBaseRouteDefinition) expect(eventListPropsMock.toBaseRouteDefinition).not.toThrow()
   })
 })
