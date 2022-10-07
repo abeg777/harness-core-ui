@@ -62,6 +62,6 @@ describe('Unit tests for CVCodeErrors', () => {
   })
 
   test('Verify routing does not throw error', async () => {
-    if (eventListPropsMock.toBaseRouteDefinition) expect(eventListPropsMock.toBaseRouteDefinition).not.toThrow()
+    if (eventListPropsMock.toBaseRouteDefinition) expect(eventListPropsMock.toBaseRouteDefinition()).not.toThrow()
   })
 })
