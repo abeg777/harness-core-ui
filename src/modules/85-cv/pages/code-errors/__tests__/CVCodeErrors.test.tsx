@@ -16,9 +16,9 @@ import { CVCodeErrors } from '../CVCodeErrors'
 export const testWrapperProps: TestWrapperProps = {
   path: routes.toErrorTracking({ ...accountPathProps, ...orgPathProps, ...projectPathProps }),
   pathParams: {
-    accountId: '1234_accountId',
-    projectIdentifier: '1234_project',
-    orgIdentifier: '1234_org'
+    accountId: 'test_accountId',
+    projectIdentifier: 'test_project',
+    orgIdentifier: 'test_org'
   }
 }
 
@@ -41,5 +41,9 @@ describe('Unit tests for CVCodeErrors', () => {
     useFeatureFlags.mockReturnValue(true)
     const container = render(<WrapperComponent />)
     expect(container).not.toBeNull()
+  })
+  
+  test('Verify routing does not throw error', async () => {
+    expect(routes.toErrorTracking({ ...accountPathProps, ...orgPathProps, ...projectPathProps })).not.toThrow()
   })
 })
