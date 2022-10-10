@@ -153,7 +153,7 @@ function DeployInfrastructures({
             const infraDefinitionObject = formik?.values?.environment?.infrastructureDefinitions?.[0]
             formik?.setFieldValue(
               `environment.infrastructureDefinitions[0]`,
-              typeof infraDefinitionObject !== 'string'
+              infraDefinitionObject && typeof infraDefinitionObject !== 'string'
                 ? infraDefinitionObject
                 : clearRuntimeInput(parsedInfrastructureDefinitionYaml.infrastructureDefinitions[0])
             )
@@ -180,6 +180,10 @@ function DeployInfrastructures({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infrastructureInputsLoading])
+
+  useEffect(() => {
+    setInfrastructures([])
+  }, [environmentIdentifier])
 
   useEffect(() => {
     // istanbul ignore else

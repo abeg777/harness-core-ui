@@ -31,6 +31,7 @@ export enum StepType {
   DeployEnvironment = 'DeployEnvironment',
   DeployEnvironmentEntity = 'DeployEnvironmentEntity',
   DeployInfrastructure = 'DeployInfrastructure',
+  DeployInfrastructureEntity = 'DeployInfrastructureEntity',
   KubernetesDirect = 'KubernetesDirect',
   K8sServiceSpec = 'K8sServiceSpec',
   K8sRollingDeploy = 'K8sRollingDeploy',
@@ -63,6 +64,7 @@ export enum StepType {
   ServiceNowApproval = 'ServiceNowApproval',
   ServiceNowCreate = 'ServiceNowCreate',
   ServiceNowUpdate = 'ServiceNowUpdate',
+  ServiceNowImportSet = 'ServiceNowImportSet',
   Verify = 'Verify',
   JiraCreate = 'JiraCreate',
   JiraUpdate = 'JiraUpdate',
@@ -105,6 +107,7 @@ export enum StepType {
   AzureArmRollback = 'AzureARMRollback',
   Background = 'Background',
   AzureBlueprint = 'AzureCreateBPResource',
+  EcsRunTask = 'EcsRunTask',
   EcsBlueGreenCreateService = 'EcsBlueGreenCreateService',
   EcsBlueGreenSwapTargetGroups = 'EcsBlueGreenSwapTargetGroups',
   EcsBlueGreenRollback = 'EcsBlueGreenRollback',
@@ -112,7 +115,8 @@ export enum StepType {
   CustomDeploymentServiceSpec = 'CustomDeploymentServiceSpec',
   CustomDeployment = 'CustomDeployment',
   FetchInstanceScript = 'FetchInstanceScript',
-  Wait = 'Wait'
+  Wait = 'Wait',
+  ShellScriptProvision = 'ShellScriptProvision'
 }
 
 export interface PipelineInfrastructureV2 extends PipelineInfrastructure {

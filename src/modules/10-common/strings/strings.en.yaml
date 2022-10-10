@@ -208,6 +208,7 @@ validation:
   subscription: 'Subscription is required'
   repository: 'Repository is required'
   projectIsRequired: Project is required
+  onlyDigitsAllowed: Only digits are allowed
 specify: Specify
 role: Role
 projectViewer: Project Viewer
@@ -720,6 +721,7 @@ plans:
   subscription: Subscription
   manageSubscription: Manage Subscription
 useTemplate: Use template
+deploymentTemplateSteps: Deployment Template Steps
 saveAsTemplate: Save as Template
 comingSoon: Coming Soon
 comingSoon2: Coming Soon!
@@ -1036,3 +1038,40 @@ loadBalancer: Load Balancer
 environmentInputs: Environment inputs
 infrastructures: Infrastructures
 infrastructureInputs: Infrastructure inputs
+environmentPrefix: 'Environment: {{ name }}'
+infrastructurePrefix: 'Infrastructure: {{ name }}'
+schedulePanel:
+  minutesLabel: 'Minutes'
+  hourlyTabTitle: '{{$.common.hourly}}'
+  dailyTabTitle: '{{$.common.daily}}'
+  weeklyTabTitle: 'Weekly'
+  monthlyTabTitle: '{{$.common.monthly}}'
+  yearlyTabTitle: '{{$.common.yearly}}'
+  runEvery: 'Run every'
+  runDailyAt: 'Run daily at'
+  runAt: 'Run at'
+  runOn: 'Run on'
+  runOnSpecificDay: 'Run on a specific day at monthly interval'
+  runOnSpecificDayMonth: 'Run on a specific day and month'
+  startingWith: 'Starting with'
+  enterCustomCron: 'Enter a custom cron expression'
+  minutesParentheses: 'minute(s)'
+  minutesAfterTheHour: 'minute(s) after the hour'
+  hoursAnd: 'hours(s) and'
+  ofEvery: 'of every'
+  onThe: 'on the'
+  monthsParentheses: 'month(s)'
+  hoursLabel: 'Hours'
+  dayOfMonthLabel: 'Day of month'
+  monthLabel: 'Month'
+  dayOfWeekLabel: 'Day of week'
+  MON: 'MON'
+  TUE: 'TUE'
+  WED: 'WED'
+  THU: 'THU'
+  FRI: 'FRI'
+  SAT: 'SAT'
+  SUN: 'SUN'
+  expressionBreakdown: 'Expression Breakdown'
+  cronExpression: 'Cron Expression'
+  cronExpressionRequired: 'Cron Expression required'

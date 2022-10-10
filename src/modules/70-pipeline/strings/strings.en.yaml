@@ -270,6 +270,14 @@ serviceNowUpdateStep:
   fieldType:
     applyFromTemplate: Apply from template
     updateFields: Update Fields
+serviceNowImportSetStep:
+  stagingTable: Staging Table
+  jsonBody: JSON Body
+  validations:
+    stagingTableRequired: Staging Table is required
+    jsonRequired: JSON is required
+    invalidJson: JSON is not valid
+  fetchingStagingTableNamePlaceholder: Fetching Staging Table Name...
 commonApprovalStep:
   execution:
     allConditionsMsg: 'If all of the following conditions are met:'
@@ -987,11 +995,13 @@ mySecurityTestsText: My Security Tests
 myPipelineRunsText: My Pipeline Runs
 noRegions: No regions found
 noBuckets: No buckets found with given region
+noBucketsFound: No buckets found
 gitRepo: Git Repo
 buildRepo: Build Repo
 failureTypetext: Select Failure Type
 stepDescription:
   HTTP: Run HTTP requests containing URLs, methods, headers, assertions, and variables.
+  ShellScriptProvision: The Shell Script Provisioner supports custom provisioners or your existing shell script implementations.
   SHELLSCRIPT: Execute scripts in the shell session. The scripts can be executed on the pod/instance running a Harness Delegate or on a remote host in the infrastructure.
   Wait: Suspend/Wait the execution for the given amount of time.
   Barrier: Synchronize multiple Pipelines to coordinate deployments systematically.
@@ -1390,8 +1400,10 @@ skipInstances:
   title: 'Skip instances with the same artifact version already deployed'
 selectiveStageExecution: 'Selective stage execution'
 customDeployment:
+  infraDefinitionVariablesTitle: 'Infrastructure Properties'
   infraVariablesTitle: 'Define the variables to be used in your infrastructure'
-  updateInfraVariablesTitle: ' Update values for variables defined as part of used template'
+  updateInfraVariablesTitle: 'Update values for variables defined as part of used template'
+  emptyInfraVariablesTitle: 'No variables are defined as part of used template'
   seeOnlyTemplatesFor: See only templates for {{name}}
   instanceObjectArrayPath: 'Instance Object Array Path'
   instanceAttributes: 'Instance Attributes'
@@ -1406,3 +1418,6 @@ customDeployment:
     fetchScriptBodyRequired: 'Fetch Instances Script body is required'
   validations:
     nameUnique: Field Name should be unique
+step:
+  validation:
+    namePatternIsNotValid: 'Name can only contain alphanumerics, _ and -'

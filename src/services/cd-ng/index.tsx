@@ -941,6 +941,14 @@ export type ArtifactoryGenericArtifactSummary = ArtifactSummary & {
   artifactPath?: string
 }
 
+export interface ArtifactoryImagePath {
+  imagePath?: string
+}
+
+export interface ArtifactoryImagePathsDTO {
+  imagePaths?: ArtifactoryImagePath[]
+}
+
 export type ArtifactoryRegistryArtifactConfig = ArtifactConfig & {
   artifactDirectory?: string
   artifactPath?: string
@@ -1343,6 +1351,17 @@ export interface AzureDeploymentSlotsDTO {
 export interface AzureDevopsProject {
   id?: string
   name?: string
+}
+
+export interface AzureImageGalleriesDTO {
+  azureImageGalleries?: AzureImageGallery[]
+}
+
+export interface AzureImageGallery {
+  name?: string
+  regionName?: string
+  resourceGroupName?: string
+  subscriptionId?: string
 }
 
 export type AzureInheritFromDelegateDetails = AzureCredentialSpec & {
@@ -1807,8 +1826,8 @@ export interface CeLicenseInfo {
 }
 
 export type ChaosModuleLicenseDTO = ModuleLicenseDTO & {
+  totalChaosExperimentRuns?: number
   totalChaosInfrastructures?: number
-  totalChaosExperimentRun?: number
 }
 
 export interface CloudformationCreateStackStepConfiguration {
@@ -3323,6 +3342,7 @@ export interface EntityDetail {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
 }
 
 export interface EntityDetailProtoDTO {
@@ -5222,7 +5242,6 @@ export interface FreezeSummaryResponse {
 }
 
 export interface FreezeWindow {
-  duration?: string
   endTime?: string
   recurrence?: Recurrence
   startTime?: string
@@ -5505,6 +5524,7 @@ export interface GitEntityBranchFilterSummaryProperties {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   )[]
   moduleType?: 'CD' | 'CI' | 'CV' | 'CF' | 'CE' | 'STO' | 'CORE' | 'PMS' | 'TEMPLATESERVICE' | 'GOVERNANCE' | 'CHAOS'
   searchTerm?: string
@@ -5624,6 +5644,7 @@ export interface GitEntityFilterProperties {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   )[]
   gitSyncConfigIdentifiers?: string[]
   moduleType?: 'CD' | 'CI' | 'CV' | 'CF' | 'CE' | 'STO' | 'CORE' | 'PMS' | 'TEMPLATESERVICE' | 'GOVERNANCE' | 'CHAOS'
@@ -5776,6 +5797,7 @@ export interface GitFullSyncEntityInfoDTO {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   errorMessage?: string
   filePath?: string
   identifier?: string
@@ -5903,6 +5925,7 @@ export interface GitFullSyncEntityInfoFilterKeys {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   )[]
   syncStatus?: 'QUEUED' | 'SUCCESS' | 'FAILED' | 'OVERRIDDEN'
 }
@@ -6138,6 +6161,7 @@ export interface GitSyncEntityDTO {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   entityUrl?: string
   folderPath?: string
   gitConnectorId?: string
@@ -6259,6 +6283,7 @@ export interface GitSyncEntityListDTO {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   gitSyncEntities?: GitSyncEntityDTO[]
 }
 
@@ -6397,6 +6422,7 @@ export interface GitSyncErrorDTO {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   errorType?: 'GIT_TO_HARNESS' | 'CONNECTIVITY_ISSUE' | 'FULL_SYNC'
   failureReason?: string
   repoId?: string
@@ -7583,7 +7609,7 @@ export type KustomizePatchesManifest = ManifestAttributes & {
   store?: StoreConfigWrapper
 }
 
-export interface LDAPSettings {
+export type LDAPSettings = NGAuthSettings & {
   connectionSettings: LdapConnectionSettings
   cronExpression?: string
   disabled?: boolean
@@ -7591,7 +7617,6 @@ export interface LDAPSettings {
   groupSettingsList?: LdapGroupSettings[]
   identifier: string
   nextIterations?: number[]
-  settingsType?: 'USER_PASSWORD' | 'SAML' | 'LDAP' | 'OAUTH'
   userSettingsList?: LdapUserSettings[]
 }
 
@@ -8165,6 +8190,11 @@ export type NexusUsernamePasswordAuth = NexusAuthCredentials & {
   usernameRef?: string
 }
 
+export interface NgManagerRefreshRequestDTO {
+  resolvedTemplatesYaml?: string
+  yaml: string
+}
+
 export interface NgSmtpDTO {
   accountId?: string
   name: string
@@ -8238,10 +8268,9 @@ export type NumberNGVariable = NGVariable & {
   value: number
 }
 
-export interface OAuthSettings {
+export type OAuthSettings = NGAuthSettings & {
   allowedProviders?: ('AZURE' | 'BITBUCKET' | 'GITHUB' | 'GITLAB' | 'GOOGLE' | 'LINKEDIN')[]
   filter?: string
-  settingsType?: 'USER_PASSWORD' | 'SAML' | 'LDAP' | 'OAUTH'
 }
 
 export interface OAuthSignupDTO {
@@ -8356,6 +8385,16 @@ export type OpenshiftManifest = ManifestAttributes & {
 export type OpenshiftParamManifest = ManifestAttributes & {
   metadata?: string
   store?: StoreConfigWrapper
+}
+
+export interface Optional {
+  empty?: boolean
+  present?: boolean
+}
+
+export interface OptionalBoolean {
+  empty?: boolean
+  present?: boolean
 }
 
 export interface OrgProjectIdentifier {
@@ -9308,10 +9347,7 @@ export interface ReferencedByDTO {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
-}
-
-export interface RefreshRequest {
-  yaml: string
+    | 'GitOpsUpdateReleaseRepo'
 }
 
 export interface RefreshResponse {
@@ -9383,9 +9419,9 @@ export interface ResourceDTO {
     | 'MONITORED_SERVICE'
     | 'CHAOS_INFRASTRUCTURE'
     | 'CHAOS_EXPERIMENT'
+    | 'CHAOS_GAMEDAY'
     | 'STO_TARGET'
     | 'STO_EXEMPTION'
-    | 'CHAOS_GAMEDAY'
     | 'SERVICE_LEVEL_OBJECTIVE'
     | 'PERSPECTIVE'
     | 'PERSPECTIVE_BUDGET'
@@ -9539,6 +9575,13 @@ export interface ResponseArtifactoryBuildDetailsDTO {
   status?: 'SUCCESS' | 'FAILURE' | 'ERROR'
 }
 
+export interface ResponseArtifactoryImagePathsDTO {
+  correlationId?: string
+  data?: ArtifactoryImagePathsDTO
+  metaData?: { [key: string]: any }
+  status?: 'SUCCESS' | 'FAILURE' | 'ERROR'
+}
+
 export interface ResponseArtifactoryRepoDetailsDTO {
   correlationId?: string
   data?: ArtifactoryRepoDetailsDTO
@@ -9563,6 +9606,13 @@ export interface ResponseAzureClustersDTO {
 export interface ResponseAzureDeploymentSlotsDTO {
   correlationId?: string
   data?: AzureDeploymentSlotsDTO
+  metaData?: { [key: string]: any }
+  status?: 'SUCCESS' | 'FAILURE' | 'ERROR'
+}
+
+export interface ResponseAzureImageGalleriesDTO {
+  correlationId?: string
+  data?: AzureImageGalleriesDTO
   metaData?: { [key: string]: any }
   status?: 'SUCCESS' | 'FAILURE' | 'ERROR'
 }
@@ -10342,6 +10392,7 @@ export interface ResponseListEntityType {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   )[]
   metaData?: { [key: string]: any }
   status?: 'SUCCESS' | 'FAILURE' | 'ERROR'
@@ -13207,6 +13258,7 @@ export interface StepData {
     | 'EcsBlueGreenCreateService'
     | 'EcsBlueGreenSwapTargetGroups'
     | 'EcsBlueGreenRollback'
+    | 'GitOpsUpdateReleaseRepo'
 }
 
 export interface StepElementConfig {
@@ -13686,6 +13738,12 @@ export interface TwoFactorAuthSettingsInfo {
 export interface TypeInfo {
   typeName?: string
   typeNamespace?: string
+}
+
+export type UpdateReleaseRepoStepInfo = StepSpecType & {
+  delegateSelectors?: string[]
+  stringMap?: ParameterFieldMapStringString
+  variables?: NGVariable[]
 }
 
 export interface UsageDataDTO {
@@ -14190,6 +14248,8 @@ export type LandingDashboardRequestCDRequestBody = LandingDashboardRequestCD
 
 export type LdapSettingsRequestBody = LdapSettings
 
+export type NgManagerRefreshRequestDTORequestBody = NgManagerRefreshRequestDTO
+
 export type NgSmtpDTORequestBody = NgSmtpDTO
 
 export type OrganizationRequestRequestBody = OrganizationRequest
@@ -14197,8 +14257,6 @@ export type OrganizationRequestRequestBody = OrganizationRequest
 export type PatchRequestRequestBody = PatchRequest
 
 export type ProjectRequestRequestBody = ProjectRequest
-
-export type RefreshRequestRequestBody = RefreshRequest
 
 export type RoleAssignmentFilterRequestBody = RoleAssignmentFilter
 
@@ -14833,6 +14891,7 @@ export interface ListActivitiesQueryParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   referredByEntityType?:
     | 'CreatePR'
     | 'GITOPS_MERGE_PR'
@@ -14946,6 +15005,7 @@ export interface ListActivitiesQueryParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
 }
 
 export type ListActivitiesProps = Omit<GetProps<ResponsePageActivity, unknown, ListActivitiesQueryParams, void>, 'path'>
@@ -15163,6 +15223,7 @@ export interface GetActivitiesSummaryQueryParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   referredByEntityType?:
     | 'CreatePR'
     | 'GITOPS_MERGE_PR'
@@ -15276,6 +15337,7 @@ export interface GetActivitiesSummaryQueryParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
 }
 
 export type GetActivitiesSummaryProps = Omit<
@@ -17431,12 +17493,72 @@ export const getLastSuccessfulBuildForArtifactoryArtifactPromise = (
     void
   >('POST', getConfig('ng/api'), `/artifacts/artifactory/getLastSuccessfulBuild`, props, signal)
 
+export interface GetImagePathsForArtifactoryQueryParams {
+  connectorRef?: string
+  repositoryType?: string
+  accountIdentifier: string
+  orgIdentifier?: string
+  projectIdentifier?: string
+  repository: string
+  fqnPath?: string
+  serviceId?: string
+}
+
+export type GetImagePathsForArtifactoryProps = Omit<
+  GetProps<ResponseArtifactoryImagePathsDTO, Failure | Error, GetImagePathsForArtifactoryQueryParams, void>,
+  'path'
+>
+
+/**
+ * Gets Image Paths details
+ */
+export const GetImagePathsForArtifactory = (props: GetImagePathsForArtifactoryProps) => (
+  <Get<ResponseArtifactoryImagePathsDTO, Failure | Error, GetImagePathsForArtifactoryQueryParams, void>
+    path={`/artifacts/artifactory/imagePaths`}
+    base={getConfig('ng/api')}
+    {...props}
+  />
+)
+
+export type UseGetImagePathsForArtifactoryProps = Omit<
+  UseGetProps<ResponseArtifactoryImagePathsDTO, Failure | Error, GetImagePathsForArtifactoryQueryParams, void>,
+  'path'
+>
+
+/**
+ * Gets Image Paths details
+ */
+export const useGetImagePathsForArtifactory = (props: UseGetImagePathsForArtifactoryProps) =>
+  useGet<ResponseArtifactoryImagePathsDTO, Failure | Error, GetImagePathsForArtifactoryQueryParams, void>(
+    `/artifacts/artifactory/imagePaths`,
+    { base: getConfig('ng/api'), ...props }
+  )
+
+/**
+ * Gets Image Paths details
+ */
+export const getImagePathsForArtifactoryPromise = (
+  props: GetUsingFetchProps<
+    ResponseArtifactoryImagePathsDTO,
+    Failure | Error,
+    GetImagePathsForArtifactoryQueryParams,
+    void
+  >,
+  signal?: RequestInit['signal']
+) =>
+  getUsingFetch<ResponseArtifactoryImagePathsDTO, Failure | Error, GetImagePathsForArtifactoryQueryParams, void>(
+    getConfig('ng/api'),
+    `/artifacts/artifactory/imagePaths`,
+    props,
+    signal
+  )
+
 export interface GetRepositoriesDetailsForArtifactoryQueryParams {
   connectorRef?: string
   repositoryType?: string
   accountIdentifier: string
-  orgIdentifier: string
-  projectIdentifier: string
+  orgIdentifier?: string
+  projectIdentifier?: string
   fqnPath?: string
   serviceId?: string
 }
@@ -22309,6 +22431,109 @@ export const getAzureClustersPromise = (
     signal
   )
 
+export interface GetsazureimageGalleriesbyresourcegroupQueryParams {
+  connectorRef?: string
+  accountIdentifier: string
+  orgIdentifier?: string
+  projectIdentifier?: string
+  fqnPath?: string
+  serviceId?: string
+}
+
+export interface GetsazureimageGalleriesbyresourcegroupPathParams {
+  subscriptionId: string
+  resourceGroup: string
+}
+
+export type GetsazureimageGalleriesbyresourcegroupProps = Omit<
+  GetProps<
+    ResponseAzureImageGalleriesDTO,
+    Failure | Error,
+    GetsazureimageGalleriesbyresourcegroupQueryParams,
+    GetsazureimageGalleriesbyresourcegroupPathParams
+  >,
+  'path'
+> &
+  GetsazureimageGalleriesbyresourcegroupPathParams
+
+/**
+ * Gets azure image Galleries by resource group
+ */
+export const GetsazureimageGalleriesbyresourcegroup = ({
+  subscriptionId,
+  resourceGroup,
+  ...props
+}: GetsazureimageGalleriesbyresourcegroupProps) => (
+  <Get<
+    ResponseAzureImageGalleriesDTO,
+    Failure | Error,
+    GetsazureimageGalleriesbyresourcegroupQueryParams,
+    GetsazureimageGalleriesbyresourcegroupPathParams
+  >
+    path={`/azure/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/imageGalleries`}
+    base={getConfig('ng/api')}
+    {...props}
+  />
+)
+
+export type UseGetsazureimageGalleriesbyresourcegroupProps = Omit<
+  UseGetProps<
+    ResponseAzureImageGalleriesDTO,
+    Failure | Error,
+    GetsazureimageGalleriesbyresourcegroupQueryParams,
+    GetsazureimageGalleriesbyresourcegroupPathParams
+  >,
+  'path'
+> &
+  GetsazureimageGalleriesbyresourcegroupPathParams
+
+/**
+ * Gets azure image Galleries by resource group
+ */
+export const useGetsazureimageGalleriesbyresourcegroup = ({
+  subscriptionId,
+  resourceGroup,
+  ...props
+}: UseGetsazureimageGalleriesbyresourcegroupProps) =>
+  useGet<
+    ResponseAzureImageGalleriesDTO,
+    Failure | Error,
+    GetsazureimageGalleriesbyresourcegroupQueryParams,
+    GetsazureimageGalleriesbyresourcegroupPathParams
+  >(
+    (paramsInPath: GetsazureimageGalleriesbyresourcegroupPathParams) =>
+      `/azure/subscriptions/${paramsInPath.subscriptionId}/resourceGroups/${paramsInPath.resourceGroup}/imageGalleries`,
+    { base: getConfig('ng/api'), pathParams: { subscriptionId, resourceGroup }, ...props }
+  )
+
+/**
+ * Gets azure image Galleries by resource group
+ */
+export const getsazureimageGalleriesbyresourcegroupPromise = (
+  {
+    subscriptionId,
+    resourceGroup,
+    ...props
+  }: GetUsingFetchProps<
+    ResponseAzureImageGalleriesDTO,
+    Failure | Error,
+    GetsazureimageGalleriesbyresourcegroupQueryParams,
+    GetsazureimageGalleriesbyresourcegroupPathParams
+  > & { subscriptionId: string; resourceGroup: string },
+  signal?: RequestInit['signal']
+) =>
+  getUsingFetch<
+    ResponseAzureImageGalleriesDTO,
+    Failure | Error,
+    GetsazureimageGalleriesbyresourcegroupQueryParams,
+    GetsazureimageGalleriesbyresourcegroupPathParams
+  >(
+    getConfig('ng/api'),
+    `/azure/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/imageGalleries`,
+    props,
+    signal
+  )
+
 export interface GetSubscriptionTagsQueryParams {
   connectorRef: string
   accountIdentifier: string
@@ -22749,6 +22974,98 @@ export const getFilePathsForS3Promise = (
     props,
     signal
   )
+
+export interface ListBucketsWithServiceV2QueryParams {
+  region?: string
+  connectorRef?: string
+  accountIdentifier: string
+  orgIdentifier: string
+  projectIdentifier: string
+  pipelineIdentifier: string
+  fqnPath: string
+  serviceId?: string
+  branch?: string
+  repoIdentifier?: string
+  getDefaultFromOtherRepo?: boolean
+  parentEntityConnectorRef?: string
+  parentEntityRepoName?: string
+  parentEntityAccountIdentifier?: string
+  parentEntityOrgIdentifier?: string
+  parentEntityProjectIdentifier?: string
+}
+
+export type ListBucketsWithServiceV2Props = Omit<
+  MutateProps<
+    ResponseListBucketResponse,
+    Failure | Error,
+    ListBucketsWithServiceV2QueryParams,
+    GetBuildDetailsForAcrArtifactWithYamlBodyRequestBody,
+    void
+  >,
+  'path' | 'verb'
+>
+
+/**
+ * Gets s3 buckets
+ */
+export const ListBucketsWithServiceV2 = (props: ListBucketsWithServiceV2Props) => (
+  <Mutate<
+    ResponseListBucketResponse,
+    Failure | Error,
+    ListBucketsWithServiceV2QueryParams,
+    GetBuildDetailsForAcrArtifactWithYamlBodyRequestBody,
+    void
+  >
+    verb="POST"
+    path={`/buckets/s3/v2/getBuckets`}
+    base={getConfig('ng/api')}
+    {...props}
+  />
+)
+
+export type UseListBucketsWithServiceV2Props = Omit<
+  UseMutateProps<
+    ResponseListBucketResponse,
+    Failure | Error,
+    ListBucketsWithServiceV2QueryParams,
+    GetBuildDetailsForAcrArtifactWithYamlBodyRequestBody,
+    void
+  >,
+  'path' | 'verb'
+>
+
+/**
+ * Gets s3 buckets
+ */
+export const useListBucketsWithServiceV2 = (props: UseListBucketsWithServiceV2Props) =>
+  useMutate<
+    ResponseListBucketResponse,
+    Failure | Error,
+    ListBucketsWithServiceV2QueryParams,
+    GetBuildDetailsForAcrArtifactWithYamlBodyRequestBody,
+    void
+  >('POST', `/buckets/s3/v2/getBuckets`, { base: getConfig('ng/api'), ...props })
+
+/**
+ * Gets s3 buckets
+ */
+export const listBucketsWithServiceV2Promise = (
+  props: MutateUsingFetchProps<
+    ResponseListBucketResponse,
+    Failure | Error,
+    ListBucketsWithServiceV2QueryParams,
+    GetBuildDetailsForAcrArtifactWithYamlBodyRequestBody,
+    void
+  >,
+  signal?: RequestInit['signal']
+) =>
+  mutateUsingFetch<
+    ResponseListBucketResponse,
+    Failure | Error,
+    ListBucketsWithServiceV2QueryParams,
+    GetBuildDetailsForAcrArtifactWithYamlBodyRequestBody,
+    void
+  >('POST', getConfig('ng/api'), `/buckets/s3/v2/getBuckets`, props, signal)
 
 export interface GetConnectorListQueryParams {
   pageIndex?: number
@@ -27449,6 +27766,7 @@ export interface ListReferredByEntitiesQueryParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   searchTerm?: string
   branch?: string
   repoIdentifier?: string
@@ -27622,6 +27940,7 @@ export interface ListAllEntityUsageByFqnQueryParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   searchTerm?: string
 }
 
@@ -30638,6 +30957,7 @@ export interface GetReferencedByQueryParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   searchTerm?: string
 }
 
@@ -31165,152 +31485,52 @@ export const deleteManyFreezesPromise = (
     void
   >('POST', getConfig('ng/api'), `/freeze/delete`, props, signal)
 
-export interface IsGlobalFreezeActiveQueryParams {
+export interface GetGlobalFreezeStatusQueryParams {
   accountIdentifier: string
   orgIdentifier?: string
   projectIdentifier?: string
 }
 
-export type IsGlobalFreezeActiveProps = Omit<
-  GetProps<ResponseBoolean, Failure | Error, IsGlobalFreezeActiveQueryParams, void>,
+export type GetGlobalFreezeStatusProps = Omit<
+  GetProps<boolean, Failure | Error, GetGlobalFreezeStatusQueryParams, void>,
   'path'
 >
 
 /**
- * Get if global freeze is Active
+ * Get status of Global Freeze
  */
-export const IsGlobalFreezeActive = (props: IsGlobalFreezeActiveProps) => (
-  <Get<ResponseBoolean, Failure | Error, IsGlobalFreezeActiveQueryParams, void>
-    path={`/freeze/evaluate/isGlobalFreezeActive`}
+export const GetGlobalFreezeStatus = (props: GetGlobalFreezeStatusProps) => (
+  <Get<boolean, Failure | Error, GetGlobalFreezeStatusQueryParams, void>
+    path={`/freeze/isGlobalDeploymentFreezeActive`}
     base={getConfig('ng/api')}
     {...props}
   />
 )
 
-export type UseIsGlobalFreezeActiveProps = Omit<
-  UseGetProps<ResponseBoolean, Failure | Error, IsGlobalFreezeActiveQueryParams, void>,
+export type UseGetGlobalFreezeStatusProps = Omit<
+  UseGetProps<boolean, Failure | Error, GetGlobalFreezeStatusQueryParams, void>,
   'path'
 >
 
 /**
- * Get if global freeze is Active
+ * Get status of Global Freeze
  */
-export const useIsGlobalFreezeActive = (props: UseIsGlobalFreezeActiveProps) =>
-  useGet<ResponseBoolean, Failure | Error, IsGlobalFreezeActiveQueryParams, void>(
-    `/freeze/evaluate/isGlobalFreezeActive`,
-    { base: getConfig('ng/api'), ...props }
-  )
-
-/**
- * Get if global freeze is Active
- */
-export const isGlobalFreezeActivePromise = (
-  props: GetUsingFetchProps<ResponseBoolean, Failure | Error, IsGlobalFreezeActiveQueryParams, void>,
-  signal?: RequestInit['signal']
-) =>
-  getUsingFetch<ResponseBoolean, Failure | Error, IsGlobalFreezeActiveQueryParams, void>(
-    getConfig('ng/api'),
-    `/freeze/evaluate/isGlobalFreezeActive`,
-    props,
-    signal
-  )
-
-export interface ShouldDisableDeploymentQueryParams {
-  accountIdentifier: string
-  orgIdentifier?: string
-  projectIdentifier?: string
-}
-
-export type ShouldDisableDeploymentProps = Omit<
-  GetProps<ResponseBoolean, Failure | Error, ShouldDisableDeploymentQueryParams, void>,
-  'path'
->
-
-/**
- * If to disable run button for deployment
- */
-export const ShouldDisableDeployment = (props: ShouldDisableDeploymentProps) => (
-  <Get<ResponseBoolean, Failure | Error, ShouldDisableDeploymentQueryParams, void>
-    path={`/freeze/evaluate/shouldDisableDeployment`}
-    base={getConfig('ng/api')}
-    {...props}
-  />
-)
-
-export type UseShouldDisableDeploymentProps = Omit<
-  UseGetProps<ResponseBoolean, Failure | Error, ShouldDisableDeploymentQueryParams, void>,
-  'path'
->
-
-/**
- * If to disable run button for deployment
- */
-export const useShouldDisableDeployment = (props: UseShouldDisableDeploymentProps) =>
-  useGet<ResponseBoolean, Failure | Error, ShouldDisableDeploymentQueryParams, void>(
-    `/freeze/evaluate/shouldDisableDeployment`,
-    { base: getConfig('ng/api'), ...props }
-  )
-
-/**
- * If to disable run button for deployment
- */
-export const shouldDisableDeploymentPromise = (
-  props: GetUsingFetchProps<ResponseBoolean, Failure | Error, ShouldDisableDeploymentQueryParams, void>,
-  signal?: RequestInit['signal']
-) =>
-  getUsingFetch<ResponseBoolean, Failure | Error, ShouldDisableDeploymentQueryParams, void>(
-    getConfig('ng/api'),
-    `/freeze/evaluate/shouldDisableDeployment`,
-    props,
-    signal
-  )
-
-export interface GetGlobalFreezeQueryParams {
-  accountIdentifier: string
-  orgIdentifier?: string
-  projectIdentifier?: string
-}
-
-export type GetGlobalFreezeProps = Omit<
-  GetProps<ResponseFreezeResponse, Failure | Error, GetGlobalFreezeQueryParams, void>,
-  'path'
->
-
-/**
- * Get Global Freeze Yaml
- */
-export const GetGlobalFreeze = (props: GetGlobalFreezeProps) => (
-  <Get<ResponseFreezeResponse, Failure | Error, GetGlobalFreezeQueryParams, void>
-    path={`/freeze/getGlobalFreeze`}
-    base={getConfig('ng/api')}
-    {...props}
-  />
-)
-
-export type UseGetGlobalFreezeProps = Omit<
-  UseGetProps<ResponseFreezeResponse, Failure | Error, GetGlobalFreezeQueryParams, void>,
-  'path'
->
-
-/**
- * Get Global Freeze Yaml
- */
-export const useGetGlobalFreeze = (props: UseGetGlobalFreezeProps) =>
-  useGet<ResponseFreezeResponse, Failure | Error, GetGlobalFreezeQueryParams, void>(`/freeze/getGlobalFreeze`, {
+export const useGetGlobalFreezeStatus = (props: UseGetGlobalFreezeStatusProps) =>
+  useGet<boolean, Failure | Error, GetGlobalFreezeStatusQueryParams, void>(`/freeze/isGlobalDeploymentFreezeActive`, {
     base: getConfig('ng/api'),
     ...props
   })
 
 /**
- * Get Global Freeze Yaml
+ * Get status of Global Freeze
  */
-export const getGlobalFreezePromise = (
-  props: GetUsingFetchProps<ResponseFreezeResponse, Failure | Error, GetGlobalFreezeQueryParams, void>,
+export const getGlobalFreezeStatusPromise = (
+  props: GetUsingFetchProps<boolean, Failure | Error, GetGlobalFreezeStatusQueryParams, void>,
   signal?: RequestInit['signal']
 ) =>
-  getUsingFetch<ResponseFreezeResponse, Failure | Error, GetGlobalFreezeQueryParams, void>(
+  getUsingFetch<boolean, Failure | Error, GetGlobalFreezeStatusQueryParams, void>(
     getConfig('ng/api'),
-    `/freeze/getGlobalFreeze`,
+    `/freeze/isGlobalDeploymentFreezeActive`,
     props,
     signal
   )
@@ -32761,6 +32981,7 @@ export interface ListGitSyncEntitiesByTypePathParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
 }
 
 export type ListGitSyncEntitiesByTypeProps = Omit<
@@ -32942,6 +33163,7 @@ export const listGitSyncEntitiesByTypePromise = (
       | 'EcsBlueGreenRollback'
       | 'ShellScriptProvision'
       | 'Freeze'
+      | 'GitOpsUpdateReleaseRepo'
   },
   signal?: RequestInit['signal']
 ) =>
@@ -38548,6 +38770,7 @@ export interface GetStepYamlSchemaQueryParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   yamlGroup?: string
 }
 
@@ -38789,6 +39012,7 @@ export interface GetEntityYamlSchemaQueryParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
 }
 
 export type GetEntityYamlSchemaProps = Omit<
@@ -39689,7 +39913,13 @@ export interface GetRefreshedYamlQueryParams {
 }
 
 export type GetRefreshedYamlProps = Omit<
-  MutateProps<ResponseRefreshResponse, Failure | Error, GetRefreshedYamlQueryParams, RefreshRequestRequestBody, void>,
+  MutateProps<
+    ResponseRefreshResponse,
+    Failure | Error,
+    GetRefreshedYamlQueryParams,
+    NgManagerRefreshRequestDTORequestBody,
+    void
+  >,
   'path' | 'verb'
 >
 
@@ -39697,7 +39927,13 @@ export type GetRefreshedYamlProps = Omit<
  * This refreshes and update inputs of entities in given yaml
  */
 export const GetRefreshedYaml = (props: GetRefreshedYamlProps) => (
-  <Mutate<ResponseRefreshResponse, Failure | Error, GetRefreshedYamlQueryParams, RefreshRequestRequestBody, void>
+  <Mutate<
+    ResponseRefreshResponse,
+    Failure | Error,
+    GetRefreshedYamlQueryParams,
+    NgManagerRefreshRequestDTORequestBody,
+    void
+  >
     verb="POST"
     path={`/refresh-inputs/refreshed-yaml`}
     base={getConfig('ng/api')}
@@ -39710,7 +39946,7 @@ export type UseGetRefreshedYamlProps = Omit<
     ResponseRefreshResponse,
     Failure | Error,
     GetRefreshedYamlQueryParams,
-    RefreshRequestRequestBody,
+    NgManagerRefreshRequestDTORequestBody,
     void
   >,
   'path' | 'verb'
@@ -39720,11 +39956,13 @@ export type UseGetRefreshedYamlProps = Omit<
  * This refreshes and update inputs of entities in given yaml
  */
 export const useGetRefreshedYaml = (props: UseGetRefreshedYamlProps) =>
-  useMutate<ResponseRefreshResponse, Failure | Error, GetRefreshedYamlQueryParams, RefreshRequestRequestBody, void>(
-    'POST',
-    `/refresh-inputs/refreshed-yaml`,
-    { base: getConfig('ng/api'), ...props }
-  )
+  useMutate<
+    ResponseRefreshResponse,
+    Failure | Error,
+    GetRefreshedYamlQueryParams,
+    NgManagerRefreshRequestDTORequestBody,
+    void
+  >('POST', `/refresh-inputs/refreshed-yaml`, { base: getConfig('ng/api'), ...props })
 
 /**
  * This refreshes and update inputs of entities in given yaml
@@ -39734,7 +39972,7 @@ export const getRefreshedYamlPromise = (
     ResponseRefreshResponse,
     Failure | Error,
     GetRefreshedYamlQueryParams,
-    RefreshRequestRequestBody,
+    NgManagerRefreshRequestDTORequestBody,
     void
   >,
   signal?: RequestInit['signal']
@@ -39743,7 +39981,7 @@ export const getRefreshedYamlPromise = (
     ResponseRefreshResponse,
     Failure | Error,
     GetRefreshedYamlQueryParams,
-    RefreshRequestRequestBody,
+    NgManagerRefreshRequestDTORequestBody,
     void
   >('POST', getConfig('ng/api'), `/refresh-inputs/refreshed-yaml`, props, signal)
 
@@ -39758,7 +39996,7 @@ export type ValidateInputsForYamlProps = Omit<
     ResponseInputsValidationResponse,
     Failure | Error,
     ValidateInputsForYamlQueryParams,
-    RefreshRequestRequestBody,
+    NgManagerRefreshRequestDTORequestBody,
     void
   >,
   'path' | 'verb'
@@ -39772,7 +40010,7 @@ export const ValidateInputsForYaml = (props: ValidateInputsForYamlProps) => (
     ResponseInputsValidationResponse,
     Failure | Error,
     ValidateInputsForYamlQueryParams,
-    RefreshRequestRequestBody,
+    NgManagerRefreshRequestDTORequestBody,
     void
   >
     verb="POST"
@@ -39787,7 +40025,7 @@ export type UseValidateInputsForYamlProps = Omit<
     ResponseInputsValidationResponse,
     Failure | Error,
     ValidateInputsForYamlQueryParams,
-    RefreshRequestRequestBody,
+    NgManagerRefreshRequestDTORequestBody,
     void
   >,
   'path' | 'verb'
@@ -39801,7 +40039,7 @@ export const useValidateInputsForYaml = (props: UseValidateInputsForYamlProps) =
     ResponseInputsValidationResponse,
     Failure | Error,
     ValidateInputsForYamlQueryParams,
-    RefreshRequestRequestBody,
+    NgManagerRefreshRequestDTORequestBody,
     void
   >('POST', `/refresh-inputs/validate-inputs-yaml`, { base: getConfig('ng/api'), ...props })
 
@@ -39813,7 +40051,7 @@ export const validateInputsForYamlPromise = (
     ResponseInputsValidationResponse,
     Failure | Error,
     ValidateInputsForYamlQueryParams,
-    RefreshRequestRequestBody,
+    NgManagerRefreshRequestDTORequestBody,
     void
   >,
   signal?: RequestInit['signal']
@@ -39822,7 +40060,7 @@ export const validateInputsForYamlPromise = (
     ResponseInputsValidationResponse,
     Failure | Error,
     ValidateInputsForYamlQueryParams,
-    RefreshRequestRequestBody,
+    NgManagerRefreshRequestDTORequestBody,
     void
   >('POST', getConfig('ng/api'), `/refresh-inputs/validate-inputs-yaml`, props, signal)
 
@@ -46694,6 +46932,89 @@ export const copyUserGroupPromise = (
     signal
   )
 
+export interface GetSsoLinkedUserGroupsQueryParams {
+  accountIdentifier: string
+}
+
+export interface GetSsoLinkedUserGroupsPathParams {
+  identifier: string
+}
+
+export type GetSsoLinkedUserGroupsProps = Omit<
+  GetProps<
+    ResponseListUserGroupDTO,
+    Failure | AccessControlCheckError | Error,
+    GetSsoLinkedUserGroupsQueryParams,
+    GetSsoLinkedUserGroupsPathParams
+  >,
+  'path'
+> &
+  GetSsoLinkedUserGroupsPathParams
+
+/**
+ * Get User Groups List linked to SSO
+ */
+export const GetSsoLinkedUserGroups = ({ identifier, ...props }: GetSsoLinkedUserGroupsProps) => (
+  <Get<
+    ResponseListUserGroupDTO,
+    Failure | AccessControlCheckError | Error,
+    GetSsoLinkedUserGroupsQueryParams,
+    GetSsoLinkedUserGroupsPathParams
+  >
+    path={`/user-groups/sso/${identifier}`}
+    base={getConfig('ng/api')}
+    {...props}
+  />
+)
+
+export type UseGetSsoLinkedUserGroupsProps = Omit<
+  UseGetProps<
+    ResponseListUserGroupDTO,
+    Failure | AccessControlCheckError | Error,
+    GetSsoLinkedUserGroupsQueryParams,
+    GetSsoLinkedUserGroupsPathParams
+  >,
+  'path'
+> &
+  GetSsoLinkedUserGroupsPathParams
+
+/**
+ * Get User Groups List linked to SSO
+ */
+export const useGetSsoLinkedUserGroups = ({ identifier, ...props }: UseGetSsoLinkedUserGroupsProps) =>
+  useGet<
+    ResponseListUserGroupDTO,
+    Failure | AccessControlCheckError | Error,
+    GetSsoLinkedUserGroupsQueryParams,
+    GetSsoLinkedUserGroupsPathParams
+  >((paramsInPath: GetSsoLinkedUserGroupsPathParams) => `/user-groups/sso/${paramsInPath.identifier}`, {
+    base: getConfig('ng/api'),
+    pathParams: { identifier },
+    ...props
+  })
+
+/**
+ * Get User Groups List linked to SSO
+ */
+export const getSsoLinkedUserGroupsPromise = (
+  {
+    identifier,
+    ...props
+  }: GetUsingFetchProps<
+    ResponseListUserGroupDTO,
+    Failure | AccessControlCheckError | Error,
+    GetSsoLinkedUserGroupsQueryParams,
+    GetSsoLinkedUserGroupsPathParams
+  > & { identifier: string },
+  signal?: RequestInit['signal']
+) =>
+  getUsingFetch<
+    ResponseListUserGroupDTO,
+    Failure | AccessControlCheckError | Error,
+    GetSsoLinkedUserGroupsQueryParams,
+    GetSsoLinkedUserGroupsPathParams
+  >(getConfig('ng/api'), `/user-groups/sso/${identifier}`, props, signal)
+
 export interface DeleteUserGroupQueryParams {
   accountIdentifier?: string
   orgIdentifier?: string
@@ -50814,6 +51135,7 @@ export interface GetYamlSchemaQueryParams {
     | 'EcsBlueGreenRollback'
     | 'ShellScriptProvision'
     | 'Freeze'
+    | 'GitOpsUpdateReleaseRepo'
   subtype?:
     | 'K8sCluster'
     | 'Git'

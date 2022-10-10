@@ -6,31 +6,46 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react'
-import { get, isEmpty, isNil, noop, set } from 'lodash-es'
+import { get, isEmpty, isNil, set } from 'lodash-es'
 import { useFormikContext } from 'formik'
+import produce from 'immer'
 
 import {
   AllowedTypes,
+  ButtonSize,
+  ButtonVariation,
   FormInput,
   getMultiTypeFromValue,
   Layout,
+  ModalDialog,
   MultiTypeInputType,
-  SelectOption
+  SelectOption,
+  useToggleOpen
 } from '@harness/uicore'
 
 import { useStrings } from 'framework/strings'
+import { useTemplateSelector } from 'framework/Templates/TemplateSelectorContext/useTemplateSelector'
 
 import { FormMultiTypeMultiSelectDropDown } from '@common/components/MultiTypeMultiSelectDropDown/MultiTypeMultiSelectDropDown'
 
-import type { StepViewType } from '@pipeline/components/AbstractSteps/Step'
+import RbacButton from '@rbac/components/Button/Button'
+import { ResourceType } from '@rbac/interfaces/ResourceType'
+import { PermissionIdentifier } from '@rbac/interfaces/PermissionIdentifier'
+
+import { ServiceDeploymentType } from '@pipeline/utils/stageHelpers'
+
+import InfrastructureModal from '@cd/components/EnvironmentsV2/EnvironmentDetails/InfrastructureDefinition/InfrastructureModal'
 
 import InfrastructureEntitiesList from '../InfrastructureEntitiesList/InfrastructureEntitiesList'
 import type {
   DeployEnvironmentEntityCustomStepProps,
   DeployEnvironmentEntityFormState,
-  InfrastructureWithInputs
+  InfrastructureWithInputs,
+  InfrastructureYaml
 } from '../types'
 import { useGetInfrastructuresData } from './useGetInfrastructuresData'
+
+import css from './DeployInfrastructure.module.scss'
 
 interface DeployInfrastructureProps extends Required<Omit<DeployEnvironmentEntityCustomStepProps, 'gitOpsEnabled'>> {
   initialValues: DeployEnvironmentEntityFormState
@@ -38,7 +53,6 @@ interface DeployInfrastructureProps extends Required<Omit<DeployEnvironmentEntit
   allowableTypes: AllowedTypes
   environmentIdentifier: string
   isMultiInfrastructure?: boolean
-  stepViewType?: StepViewType
 }
 
 export function getAllFixedInfrastructures(
@@ -72,10 +86,14 @@ export default function DeployInfrastructure({
   environmentIdentifier,
   isMultiInfrastructure,
   stageIdentifier,
-  deploymentType
+  deploymentType,
+  customDeploymentRef
 }: DeployInfrastructureProps): JSX.Element {
   const { values, setValues } = useFormikContext<DeployEnvironmentEntityFormState>()
   const { getString } = useStrings()
+  const { isOpen: isAddNewModalOpen, open: openAddNewModal, close: closeAddNewModal } = useToggleOpen()
+  const { templateRef: deploymentTemplateIdentifier, versionLabel } = customDeploymentRef || {}
+  const { getTemplate } = useTemplateSelector()
 
   // State
   const [selectedInfrastructures, setSelectedInfrastructures] = useState(
@@ -83,9 +101,13 @@ export default function DeployInfrastructure({
   )
 
   // Constants
-  const isFixed = isMultiInfrastructure
-    ? Array.isArray(values.infrastructures?.[environmentIdentifier])
-    : getMultiTypeFromValue(values.infrastructure) === MultiTypeInputType.FIXED
+  const isFixed =
+    getMultiTypeFromValue(
+      isMultiInfrastructure ? values.infrastructures?.[environmentIdentifier] : values.infrastructure
+    ) === MultiTypeInputType.FIXED
+
+  const shouldAddCustomDeploymentData =
+    deploymentType === ServiceDeploymentType.CustomDeployment && deploymentTemplateIdentifier
 
   // API
   const {
@@ -94,13 +116,18 @@ export default function DeployInfrastructure({
     loadingInfrastructuresList,
     loadingInfrastructuresData,
     // This is required only when updating the entities list
-    updatingInfrastructuresData
-    // refetchInfrastructuresList,
-    // refetchInfrastructuresData
+    updatingInfrastructuresData,
+    refetchInfrastructuresList,
+    refetchInfrastructuresData,
+    prependInfrastructureToInfrastructureList
   } = useGetInfrastructuresData({
     environmentIdentifier,
     infrastructureIdentifiers: selectedInfrastructures,
-    deploymentType
+    deploymentType,
+    ...(shouldAddCustomDeploymentData && {
+      deploymentTemplateIdentifier,
+      versionLabel
+    })
   })
 
   const selectOptions = useMemo(() => {
@@ -122,7 +149,7 @@ export default function DeployInfrastructure({
       // update infrastructures in formik
       /* istanbul ignore else */
       if (values && infrastructuresData.length > 0) {
-        if (values.infrastructure && !values.infrastructureInputs?.[values.infrastructure]) {
+        if (values.infrastructure && !values.infrastructureInputs?.[environmentIdentifier]?.[values.infrastructure]) {
           const infrastructure = infrastructuresData.find(
             infrastructureData => infrastructureData.infrastructureDefinition.identifier === values.infrastructure
           )
@@ -131,11 +158,13 @@ export default function DeployInfrastructure({
             ...values,
             // if infrastructure input is not found, add it, else use the existing one
             infrastructureInputs: {
-              [values.infrastructure]: get(
-                values.infrastructureInputs,
-                [values.infrastructure],
-                infrastructure?.infrastructureInputs
-              )
+              [environmentIdentifier]: {
+                [values.infrastructure]: get(
+                  values.infrastructureInputs,
+                  `${environmentIdentifier}.${values.infrastructure}`,
+                  infrastructure?.infrastructureInputs
+                )
+              }
             }
           })
         } else if (values.infrastructures && Array.isArray(values.infrastructures?.[environmentIdentifier])) {
@@ -179,7 +208,11 @@ export default function DeployInfrastructure({
             }
           )
 
-          setValues({ ...values, ...updatedInfrastructures })
+          setValues({
+            ...values,
+            infrastructures: { ...values.infrastructures, ...updatedInfrastructures.infrastructures },
+            infrastructureInputs: { ...values.infrastructureInputs, ...updatedInfrastructures.infrastructureInputs }
+          })
         }
       }
     }
@@ -191,7 +224,7 @@ export default function DeployInfrastructure({
   let placeHolderForInfrastructures =
     values.infrastructures && Array.isArray(values.infrastructures[environmentIdentifier])
       ? getString('common.infrastructures')
-      : getString('cd.pipelineSteps.environmentTab.selectInfrastructure')
+      : getString('cd.pipelineSteps.environmentTab.selectInfrastructures')
 
   if (loading) {
     placeHolderForInfrastructures = getString('loading')
@@ -201,13 +234,58 @@ export default function DeployInfrastructure({
     ? getString('loading')
     : getString('cd.pipelineSteps.environmentTab.selectInfrastructure')
 
+  const updateFormikAndLocalState = (newFormValues: DeployEnvironmentEntityFormState): void => {
+    // this sets the form values
+    setValues(newFormValues)
+    // this updates the local state
+    setSelectedInfrastructures(getAllFixedInfrastructures(newFormValues, environmentIdentifier))
+  }
+
+  const updateInfrastructuresList = (newInfrastructureInfo: InfrastructureYaml): void => {
+    prependInfrastructureToInfrastructureList(newInfrastructureInfo)
+    closeAddNewModal()
+
+    const newFormValues = produce(values, draft => {
+      if (draft.infrastructures && Array.isArray(draft.infrastructures[environmentIdentifier])) {
+        draft.infrastructures[environmentIdentifier].push({
+          label: newInfrastructureInfo.name,
+          value: newInfrastructureInfo.identifier
+        })
+      } else {
+        draft.infrastructure = newInfrastructureInfo.identifier
+      }
+    })
+
+    updateFormikAndLocalState(newFormValues)
+  }
+
+  const onInfrastructureEntityUpdate = (): void => {
+    refetchInfrastructuresList()
+    refetchInfrastructuresData()
+  }
+
+  const onRemoveInfrastructureFromList = (infrastructureToDelete: string): void => {
+    const newFormValues = produce(values, draft => {
+      if (draft.infrastructure) {
+        draft.infrastructure = ''
+        delete draft.infrastructures
+      } else if (draft.infrastructures && Array.isArray(draft.infrastructures[environmentIdentifier])) {
+        draft.infrastructures[environmentIdentifier] = draft.infrastructures[environmentIdentifier].filter(
+          infra => infra.value !== infrastructureToDelete
+        )
+      }
+    })
+
+    updateFormikAndLocalState(newFormValues)
+  }
+
   return (
     <>
       <Layout.Horizontal spacing="medium" flex={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
         {isMultiInfrastructure ? (
           <FormMultiTypeMultiSelectDropDown
-            label={getString('cd.pipelineSteps.environmentTab.specifyYourInfrastructure')}
-            tooltipProps={{ dataTooltipId: 'specifyYourInfrastructure' }}
+            label={getString('cd.pipelineSteps.environmentTab.specifyYourInfrastructures')}
+            tooltipProps={{ dataTooltipId: 'specifyYourInfrastructures' }}
             name={`infrastructures.${environmentIdentifier}`}
             // Form group disabled
             disabled={disabled}
@@ -245,6 +323,22 @@ export default function DeployInfrastructure({
             selectItems={selectOptions}
           />
         )}
+        {isFixed && (
+          <RbacButton
+            margin={{ top: 'xlarge' }}
+            size={ButtonSize.SMALL}
+            variation={ButtonVariation.LINK}
+            disabled={readonly}
+            onClick={openAddNewModal}
+            permission={{
+              resource: {
+                resourceType: ResourceType.ENVIRONMENT
+              },
+              permission: PermissionIdentifier.EDIT_ENVIRONMENT
+            }}
+            text={getString('common.plusNewName', { name: getString('infrastructureText') })}
+          />
+        )}
       </Layout.Horizontal>
       {isFixed && !isEmpty(selectedInfrastructures) && (
         <InfrastructureEntitiesList
@@ -252,14 +346,36 @@ export default function DeployInfrastructure({
           infrastructuresData={infrastructuresData}
           readonly={readonly}
           allowableTypes={allowableTypes}
-          // onInfrastructureEntityUpdate={onInfrastructureEntityUpdate}
-          // onRemoveInfrastructureFromList={removeInfrastructureFromList}
-          onInfrastructureEntityUpdate={noop as any}
-          onRemoveInfrastructureFromList={noop as any}
-          stageIdentifier={stageIdentifier}
+          onInfrastructureEntityUpdate={onInfrastructureEntityUpdate}
+          onRemoveInfrastructureFromList={onRemoveInfrastructureFromList}
           environmentIdentifier={environmentIdentifier}
+          stageIdentifier={stageIdentifier}
+          customDeploymentRef={customDeploymentRef}
         />
       )}
+
+      <ModalDialog
+        isOpen={isAddNewModalOpen}
+        onClose={closeAddNewModal}
+        title={getString('common.newName', { name: getString('infrastructureText') })}
+        canEscapeKeyClose={false}
+        canOutsideClickClose={false}
+        enforceFocus={false}
+        lazy
+        width={1128}
+        height={840}
+        className={css.dialogStyles}
+      >
+        <InfrastructureModal
+          hideModal={closeAddNewModal}
+          refetch={updateInfrastructuresList}
+          environmentIdentifier={environmentIdentifier}
+          selectedInfrastructure={''}
+          stageDeploymentType={deploymentType as ServiceDeploymentType}
+          stageCustomDeploymentData={customDeploymentRef}
+          getTemplate={getTemplate}
+        />
+      </ModalDialog>
     </>
   )
 }

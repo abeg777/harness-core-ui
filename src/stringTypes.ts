@@ -208,6 +208,7 @@ export interface StringsMap {
   'common.deleteServiceConfirmation': string
   'common.deleteServiceFailure': string
   'common.deleteServiceMessage': string
+  'common.deploymentTemplateSteps': string
   'common.descriptionPlaceholder': string
   'common.directly': string
   'common.disable': string
@@ -247,6 +248,7 @@ export interface StringsMap {
   'common.environmentInputs': string
   'common.environmentList': string
   'common.environmentOverrides': string
+  'common.environmentPrefix': string
   'common.environmentUpdated': string
   'common.errorCount': string
   'common.errorHandler.communityForum': string
@@ -439,6 +441,7 @@ export interface StringsMap {
   'common.importFromGit': string
   'common.in': string
   'common.infrastructureInputs': string
+  'common.infrastructurePrefix': string
   'common.infrastructures': string
   'common.input': string
   'common.inputVariables': string
@@ -709,6 +712,40 @@ export interface StringsMap {
   'common.savedSuccessfully': string
   'common.saving': string
   'common.schedule': string
+  'common.schedulePanel.FRI': string
+  'common.schedulePanel.MON': string
+  'common.schedulePanel.SAT': string
+  'common.schedulePanel.SUN': string
+  'common.schedulePanel.THU': string
+  'common.schedulePanel.TUE': string
+  'common.schedulePanel.WED': string
+  'common.schedulePanel.cronExpression': string
+  'common.schedulePanel.cronExpressionRequired': string
+  'common.schedulePanel.dailyTabTitle': string
+  'common.schedulePanel.dayOfMonthLabel': string
+  'common.schedulePanel.dayOfWeekLabel': string
+  'common.schedulePanel.enterCustomCron': string
+  'common.schedulePanel.expressionBreakdown': string
+  'common.schedulePanel.hourlyTabTitle': string
+  'common.schedulePanel.hoursAnd': string
+  'common.schedulePanel.hoursLabel': string
+  'common.schedulePanel.minutesAfterTheHour': string
+  'common.schedulePanel.minutesLabel': string
+  'common.schedulePanel.minutesParentheses': string
+  'common.schedulePanel.monthLabel': string
+  'common.schedulePanel.monthlyTabTitle': string
+  'common.schedulePanel.monthsParentheses': string
+  'common.schedulePanel.ofEvery': string
+  'common.schedulePanel.onThe': string
+  'common.schedulePanel.runAt': string
+  'common.schedulePanel.runDailyAt': string
+  'common.schedulePanel.runEvery': string
+  'common.schedulePanel.runOn': string
+  'common.schedulePanel.runOnSpecificDay': string
+  'common.schedulePanel.runOnSpecificDayMonth': string
+  'common.schedulePanel.startingWith': string
+  'common.schedulePanel.weeklyTabTitle': string
+  'common.schedulePanel.yearlyTabTitle': string
   'common.scope': string
   'common.script': string
   'common.scriptRequired': string
@@ -910,6 +947,7 @@ export interface StringsMap {
   'common.validation.keyIsRequired': string
   'common.validation.nameIsRequired': string
   'common.validation.namePatternIsNotValid': string
+  'common.validation.onlyDigitsAllowed': string
   'common.validation.package': string
   'common.validation.projectIsRequired': string
   'common.validation.provisionerIdentifierIsRequired': string
@@ -946,6 +984,7 @@ export interface StringsMap {
   'common.yearly': string
   'common.zipCode': string
   'notifications.buttonSend': string
+  'notifications.configureConditions': string
   'notifications.emailOrAlias': string
   'notifications.emailRecipients': string
   'notifications.emailTestSuccess': string
@@ -1731,8 +1770,10 @@ export interface StringsMap {
   'authSettings.ldap.nameAttributesRequired': string
   'authSettings.ldap.newGroupQuery': string
   'authSettings.ldap.newUserQuery': string
+  'authSettings.ldap.nextIterations': string
   'authSettings.ldap.queryTestFail': string
   'authSettings.ldap.queryTestSuccessful': string
+  'authSettings.ldap.reviewLdapSyncExpression': string
   'authSettings.ldap.scheduledSyncs': string
   'authSettings.ldap.searchFilter': string
   'authSettings.ldap.searchFilterRequired': string
@@ -1744,6 +1785,7 @@ export interface StringsMap {
   'authSettings.ldap.updateStepFailMessage': string
   'authSettings.ldap.userQueries': string
   'authSettings.ldap.userQueryTitle': string
+  'authSettings.ldap.userSyncSchedule': string
   'authSettings.ldap.verifyAndEnableConfig': string
   'authSettings.ldapProviderDeleted': string
   'authSettings.lockoutDuration': string
@@ -3185,12 +3227,14 @@ export interface StringsMap {
   'pipeline.customApprovalStep.validation.minimumRetryIntervalIs10Secs': string
   'pipeline.customApprovalStep.validation.minimumScriptTimeoutIs10Secs': string
   'pipeline.customApprovalStep.validation.outputVariable': string
+  'pipeline.customDeployment.emptyInfraVariablesTitle': string
   'pipeline.customDeployment.errors.fetchScriptBodyRequired': string
   'pipeline.customDeployment.errors.fetchScriptRequired': string
   'pipeline.customDeployment.fetchInstanceScriptHeader': string
   'pipeline.customDeployment.fetchInstancesScript': string
   'pipeline.customDeployment.fieldNameLabel': string
   'pipeline.customDeployment.fieldNamePlaceholder': string
+  'pipeline.customDeployment.infraDefinitionVariablesTitle': string
   'pipeline.customDeployment.infraVariablesTitle': string
   'pipeline.customDeployment.instanceAttributes': string
   'pipeline.customDeployment.instanceObjectArrayPath': string
@@ -3688,6 +3732,7 @@ export interface StringsMap {
   'pipeline.noApprovalInstanceCreated': string
   'pipeline.noArtifactPaths': string
   'pipeline.noBuckets': string
+  'pipeline.noBucketsFound': string
   'pipeline.noBuildsLabel': string
   'pipeline.noBuildsText': string
   'pipeline.noDeploymentText': string
@@ -3894,6 +3939,12 @@ export interface StringsMap {
   'pipeline.serviceNowCreateStep.validations.shortDescription': string
   'pipeline.serviceNowCreateStep.validations.templateName': string
   'pipeline.serviceNowCreateStep.validations.validTemplateName': string
+  'pipeline.serviceNowImportSetStep.fetchingStagingTableNamePlaceholder': string
+  'pipeline.serviceNowImportSetStep.jsonBody': string
+  'pipeline.serviceNowImportSetStep.stagingTable': string
+  'pipeline.serviceNowImportSetStep.validations.invalidJson': string
+  'pipeline.serviceNowImportSetStep.validations.jsonRequired': string
+  'pipeline.serviceNowImportSetStep.validations.stagingTableRequired': string
   'pipeline.serviceNowUpdateStep.fieldType.applyFromTemplate': string
   'pipeline.serviceNowUpdateStep.fieldType.updateFields': string
   'pipeline.singleStageExecution': string
@@ -3915,6 +3966,7 @@ export interface StringsMap {
   'pipeline.startupCommand.plainText': string
   'pipeline.startupCommand.scriptFilePath': string
   'pipeline.startupCommand.subtitle': string
+  'pipeline.step.validation.namePatternIsNotValid': string
   'pipeline.stepCommonFields.ifNotPresent': string
   'pipeline.stepCommonFields.runAsUser': string
   'pipeline.stepCommonFields.validation.invalidLimitCPU': string
@@ -3968,6 +4020,7 @@ export interface StringsMap {
   'pipeline.stepDescription.ServerlessLambdaDeploy': string
   'pipeline.stepDescription.ServerlessLambdaRollback': string
   'pipeline.stepDescription.ServiceNowApproval': string
+  'pipeline.stepDescription.ShellScriptProvision': string
   'pipeline.stepDescription.TerraformApply': string
   'pipeline.stepDescription.TerraformDestroy': string
   'pipeline.stepDescription.TerraformPlan': string
@@ -4129,6 +4182,10 @@ export interface StringsMap {
   'pipeline.viewPipeline': string
   'pipeline.waitStep.validation.duration10SecMinimum': string
   'pipeline.warningForInvalidYAMLDiscard': string
+  'freezeWindows.deploymentFreeze': string
+  'freezeWindows.freezeNotifications.rejectedDeployments': string
+  'freezeWindows.freezeNotifications.rejectedInvocations': string
+  'freezeWindows.freezeNotifications.windowEnabled': string
   'freezeWindows.freezeStudio.allOrganizations': string
   'freezeWindows.freezeStudio.defineResources': string
   'freezeWindows.freezeStudio.excludeFollowingOrg': string
@@ -4163,6 +4220,7 @@ export interface StringsMap {
   'freezeWindows.globalFreeze.enableFreezeSuccess': string
   'freezeWindows.globalFreeze.enableFreezeTitle': string
   'freezeWindows.globalFreeze.enabled': string
+  'freezeWindows.rbac.global': string
   'templatesLibrary.addNewTemplate': string
   'templatesLibrary.alwaysUseStableVersion': string
   'templatesLibrary.changeGitBranch': string
@@ -4358,8 +4416,6 @@ export interface StringsMap {
   'cd.addInline': string
   'cd.addRemote': string
   'cd.addService': string
-  'cd.addStepTemplate': string
-  'cd.addStepTemplatesForYourDeploymentType': string
   'cd.addTFVarFileLabel': string
   'cd.allowSimultaneousDeployments': string
   'cd.amazonElasticCmd': string
@@ -4477,6 +4533,7 @@ export interface StringsMap {
   'cd.connectionIssueSuggestion': string
   'cd.connectorRefText': string
   'cd.continuous': string
+  'cd.createAndUseTemplate': string
   'cd.createdGitOpsServerSuccessfully': string
   'cd.createdSuccessfully': string
   'cd.creating': string
@@ -4619,16 +4676,23 @@ export interface StringsMap {
   'cd.pipelineCreation': string
   'cd.pipelineSteps.environmentTab.allClustersSelected': string
   'cd.pipelineSteps.environmentTab.clusterIsRequired': string
+  'cd.pipelineSteps.environmentTab.deleteEnvironmentFromListConfirmationText': string
+  'cd.pipelineSteps.environmentTab.deleteEnvironmentFromListDialogTitleText': string
+  'cd.pipelineSteps.environmentTab.deleteInfrastructureFromListConfirmationText': string
+  'cd.pipelineSteps.environmentTab.deleteInfrastructureFromListDialogTitleText': string
   'cd.pipelineSteps.environmentTab.deployToAll': string
   'cd.pipelineSteps.environmentTab.environmentGroupConfirmationText': string
   'cd.pipelineSteps.environmentTab.environmentGroupDialogTitleText': string
+  'cd.pipelineSteps.environmentTab.environmentGroupIsRequired': string
   'cd.pipelineSteps.environmentTab.environmentInEnvGroupIsRequired': string
   'cd.pipelineSteps.environmentTab.environmentIsRequired': string
   'cd.pipelineSteps.environmentTab.environmentOrEnvGroupAsRuntime': string
   'cd.pipelineSteps.environmentTab.environmentOrEnvGroupIsRequired': string
+  'cd.pipelineSteps.environmentTab.environmentsAreRequired': string
   'cd.pipelineSteps.environmentTab.hideEnvironmentInputs': string
   'cd.pipelineSteps.environmentTab.hideInfrastructureInputs': string
   'cd.pipelineSteps.environmentTab.infrastructureIsRequired': string
+  'cd.pipelineSteps.environmentTab.infrastructuresAreRequired': string
   'cd.pipelineSteps.environmentTab.multiEnvInfraToggleText': string
   'cd.pipelineSteps.environmentTab.multiEnvironmentsConfirmationText': string
   'cd.pipelineSteps.environmentTab.multiEnvironmentsDialogTitleText': string
@@ -4637,15 +4701,19 @@ export interface StringsMap {
   'cd.pipelineSteps.environmentTab.plusNewEnvironment': string
   'cd.pipelineSteps.environmentTab.selectEnvironment': string
   'cd.pipelineSteps.environmentTab.selectEnvironmentGroup': string
+  'cd.pipelineSteps.environmentTab.selectEnvironments': string
   'cd.pipelineSteps.environmentTab.selectInfrastructure': string
   'cd.pipelineSteps.environmentTab.selectInfrastructureType': string
+  'cd.pipelineSteps.environmentTab.selectInfrastructures': string
   'cd.pipelineSteps.environmentTab.singleEnvironmentConfirmationText': string
   'cd.pipelineSteps.environmentTab.singleEnvironmentDialogTitleText': string
   'cd.pipelineSteps.environmentTab.specifyEnvironmentOrGroup': string
   'cd.pipelineSteps.environmentTab.specifyGitOpsClusters': string
   'cd.pipelineSteps.environmentTab.specifyYourEnvironment': string
   'cd.pipelineSteps.environmentTab.specifyYourEnvironmentGroup': string
+  'cd.pipelineSteps.environmentTab.specifyYourEnvironments': string
   'cd.pipelineSteps.environmentTab.specifyYourInfrastructure': string
+  'cd.pipelineSteps.environmentTab.specifyYourInfrastructures': string
   'cd.pipelineSteps.environmentTab.viewEnvironmentInputs': string
   'cd.pipelineSteps.environmentTab.viewInfrastructureInputs': string
   'cd.pipelineSteps.executionTab.stepsCount': string
@@ -4833,6 +4901,11 @@ export interface StringsMap {
   'cd.steps.ecsBGCreateServiceStep.labels.stageListenerRuleARN': string
   'cd.steps.ecsBGCreateServiceStep.sectionHeaders.configureProductionService': string
   'cd.steps.ecsBGCreateServiceStep.sectionHeaders.configureStageService': string
+  'cd.steps.ecsRunTaskStep.ecsRunTaskDefinition': string
+  'cd.steps.ecsRunTaskStep.ecsRunTaskRequestDefinition': string
+  'cd.steps.ecsRunTaskStep.runTaskDefinition': string
+  'cd.steps.ecsRunTaskStep.runTaskRequestDefinition': string
+  'cd.steps.ecsRunTaskStep.skipSteadyStateCheck': string
   'cd.steps.kubernetesGcpStep.stepName': string
   'cd.steps.pdcStep.attributesPlaceholder': string
   'cd.steps.pdcStep.filterHostAttributes': string
@@ -4865,7 +4938,7 @@ export interface StringsMap {
   'cd.updating': string
   'cd.updatingGitOpsServer': string
   'cd.useConnectorCredentials': string
-  'cd.useStepTemplate': string
+  'cd.useStepTemplatesForYourDeploymentType': string
   'cd.validation.specifyFilter': string
   'cd.varFile': string
   'cd.varFileDetails': string
@@ -6117,6 +6190,10 @@ export interface StringsMap {
   'cf.environments.delete.message': string
   'cf.environments.delete.title': string
   'cf.environments.environmentID': string
+  'cf.environments.noEnvironmentSection.auditTrails': string
+  'cf.environments.noEnvironmentSection.configurations': string
+  'cf.environments.noEnvironmentSection.limitation': string
+  'cf.environments.noEnvironmentSection.message': string
   'cf.featureFlagDetail.noServices': string
   'cf.featureFlagDetail.searchService': string
   'cf.featureFlagDetail.serviceDescription': string
@@ -6835,6 +6912,7 @@ export interface StringsMap {
   'cv.healthSource.connectors.AppDynamics.validation.basePath': string
   'cv.healthSource.connectors.AppDynamics.validation.fullPath': string
   'cv.healthSource.connectors.AppDynamics.validation.inCorrectMetricPath': string
+  'cv.healthSource.connectors.AppDynamics.validation.inCorrectOrderOfTierInPath': string
   'cv.healthSource.connectors.AppDynamics.validation.metricPath': string
   'cv.healthSource.connectors.AppDynamics.validation.metricPathWithoutLeafNode': string
   'cv.healthSource.connectors.AppDynamics.validation.missingServiceInstanceMetricPath': string
@@ -7260,7 +7338,6 @@ export interface StringsMap {
   'cv.nonAnomalous': string
   'cv.notifications.changeType': string
   'cv.notifications.condition': string
-  'cv.notifications.configureAlertConditions': string
   'cv.notifications.deleteNotification': string
   'cv.notifications.deleteNotificationWarning': string
   'cv.notifications.errorBudgetPolicies': string
