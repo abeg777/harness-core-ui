@@ -38,10 +38,8 @@ describe('Unit tests for CVCodeErrors', () => {
 
   test('Verify CodeErrors page enabled is not empty ', async () => {
     const useFeatureFlags = jest.spyOn(hooks, 'useFeatureFlag')
-    const routesToErrorTracking = jest.spyOn(routes, 'toErrorTracking')
     useFeatureFlags.mockReturnValue(true)
     const container = render(<WrapperComponent />)
     expect(container).not.toBeNull()
-    expect(routesToErrorTracking).toBeDefined()
   })
 })
