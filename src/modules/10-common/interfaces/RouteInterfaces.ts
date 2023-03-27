@@ -213,6 +213,7 @@ export type ModuleNameMatch =
   | ':module(iacm)'
   | ':module(ssca)'
   | ':module(idp)'
+  | ':module(et)'
 
 export type Module = ModuleName | ModuleNameMatch
 
