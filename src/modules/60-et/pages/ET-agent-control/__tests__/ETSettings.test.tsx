@@ -11,7 +11,7 @@ import routes from '@common/RouteDefinitions'
 import { TestWrapper, TestWrapperProps } from '@common/utils/testUtils'
 import { accountPathProps, orgPathProps, projectPathProps } from '@common/utils/routeUtils'
 import * as hooks from '@common/hooks/useFeatureFlag'
-import CVCodeErrorsSettings from '../ETSettings'
+import ETSettings from '../ETSettings'
 
 export const testWrapperProps: TestWrapperProps = {
   path: routes.toETSettings({ ...accountPathProps, ...orgPathProps, ...projectPathProps }),
@@ -25,7 +25,7 @@ export const testWrapperProps: TestWrapperProps = {
 const WrapperComponent = (): React.ReactElement => {
   return (
     <TestWrapper {...testWrapperProps}>
-      <CVCodeErrorsSettings />
+      <ETSettings />
     </TestWrapper>
   )
 }
@@ -39,11 +39,11 @@ describe('Unit tests for ETSettings', () => {
     const renderObj = render(<WrapperComponent />)
     getByText = renderObj.getByText
     getByTestId = renderObj.getByTestId
-    await waitFor(() => getByText('cv.codeErrors.agents'))
+    await waitFor(() => getByText('Agents'))
   })
 
   test('click on tokens', () => {
-    const tokens = getByText('cv.codeErrors.agentTokens')
+    const tokens = getByText('Tokens')
     act(() => {
       fireEvent.click(tokens)
     })
@@ -58,7 +58,7 @@ describe('Unit tests for ETSettings', () => {
     ).toBeTruthy()
   }),
     test('click on agents', () => {
-      const agents = getByText('cv.codeErrors.agents')
+      const agents = getByText('Agents')
       act(() => {
         fireEvent.click(agents)
       })
@@ -73,7 +73,7 @@ describe('Unit tests for ETSettings', () => {
       ).toBeTruthy()
     }),
     test('click on critical events', () => {
-      const agents = getByText('cv.codeErrors.criticalEvents')
+      const agents = getByText('Critical Events')
       act(() => {
         fireEvent.click(agents)
       })
