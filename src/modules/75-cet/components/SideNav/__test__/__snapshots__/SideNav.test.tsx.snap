@@ -196,7 +196,7 @@ exports[`CET Sidenav render with project 1`] = `
 </div>
 `;
 
-exports[`ET Sidenav render w/o project 1`] = `
+exports[`CET Sidenav render w/o project 1`] = `
 <div>
   <div
     class="Layout--vertical Layout--layout-spacing-small StyledProps--main"
@@ -267,7 +267,7 @@ exports[`ET Sidenav render w/o project 1`] = `
 </div>
 `;
 
-exports[`ET Sidenav render with project 1`] = `
+exports[`CET Sidenav render with project 1`] = `
 <div>
   <div
     class="Layout--vertical Layout--layout-spacing-small StyledProps--main"

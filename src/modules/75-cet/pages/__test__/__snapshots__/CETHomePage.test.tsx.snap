@@ -27,7 +27,7 @@ exports[`CETHomePage snapshot test should render properly 1`] = `
 </div>
 `;
 
-exports[`ETHomePage snapshot test Ensure project success handler calls history push 1`] = `
+exports[`CETHomePage snapshot test Ensure project success handler calls history push 1`] = `
 <div>
   <div>
     <h1>
@@ -42,7 +42,7 @@ exports[`ETHomePage snapshot test Ensure project success handler calls history p
 </div>
 `;
 
-exports[`ETHomePage snapshot test should render properly 1`] = `
+exports[`CETHomePage snapshot test should render properly 1`] = `
 <div>
   <div
     class="homepagetemplage"
