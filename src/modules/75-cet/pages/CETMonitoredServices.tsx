@@ -24,7 +24,7 @@ export const CETMonitoredServices = (): JSX.Element => {
     pathname: '/etmonitoredservices'
   }
 
-  useDocumentTitle([getString('cet.title'), getString('common.monitoredServices')])
+  useDocumentTitle([getString('common.monitoredServices')])
 
   if (CET_ENABLED) {
     return (
