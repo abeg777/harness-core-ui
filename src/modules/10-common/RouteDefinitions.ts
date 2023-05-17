@@ -2236,6 +2236,11 @@ const routes = {
   toCETPolicies: withAccountId(
     ({ orgIdentifier, projectIdentifier }: ProjectPathProps) =>
       `/cet/orgs/${orgIdentifier}/projects/${projectIdentifier}/setup/governance/dashboard`
+  ),
+
+  toCETEventSummaryOldNotifLink: withAccountId(
+    ({ projectIdentifier, orgIdentifier }: ProjectPathProps) =>
+      `/cv/orgs/${orgIdentifier}/projects/${projectIdentifier}/et/eventsummary`
   )
 }
 

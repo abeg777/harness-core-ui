@@ -147,6 +147,14 @@ const ETRoutes: FC = () => {
 
       <RouteWithLayout
         licenseRedirectData={licenseRedirectData}
+        sidebarProps={CETSideNavProps}
+        path={routes.toCETEventSummaryOldNotifLink({ ...accountPathProps, ...projectPathProps, ...etModuleParams })}
+      >
+        <RedirectToCETProject />
+      </RouteWithLayout>
+
+      <RouteWithLayout
+        licenseRedirectData={licenseRedirectData}
         exact
         sidebarProps={CETSideNavProps}
         path={[routes.toCETSettings({ ...accountPathProps, ...projectPathProps, ...etModuleParams })]}
