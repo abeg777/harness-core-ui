@@ -21,7 +21,7 @@ exports[`CETTrialPage snapshot test should render properly 1`] = `
         cet.homepage.slogan
       </p>
       <a
-        href="https://developer.harness.io/docs/category/continuous-error-tracking"
+        href="https://developer.harness.io/docs/continuous-error-tracking"
         rel="noreferrer"
         target="_blank"
       >
@@ -82,7 +82,7 @@ exports[`CETTrialPage snapshot test should render properly 1`] = `
         cet.homepage.slogan
       </p>
       <a
-        href="https://developer.harness.io/docs/category/continuous-error-tracking"
+        href="https://developer.harness.io/docs/continuous-error-tracking"
         rel="noreferrer"
         target="_blank"
       >

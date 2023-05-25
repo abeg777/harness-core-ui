@@ -102,11 +102,10 @@ export default function ETSideNav(): React.ReactElement {
               />
               <SidebarLink
                 label={getString('common.governance')}
-                to={routes.toGovernance({
+                to={routes.toCETPolicies({
                   accountId,
                   orgIdentifier,
-                  projectIdentifier,
-                  module: 'cet'
+                  projectIdentifier
                 })}
               />
               <SidebarLink
