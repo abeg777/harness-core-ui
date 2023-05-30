@@ -133,7 +133,7 @@ export const NGBreadcrumbs: React.FC<Partial<NGBreadcrumbsProps>> = ({
         break
       case ModuleName.CET:
         url = paths.toCET(params)
-        label = 'Continuous Error Tracking'
+        label = getString('common.purpose.cet.continuous')
         break
     }
 

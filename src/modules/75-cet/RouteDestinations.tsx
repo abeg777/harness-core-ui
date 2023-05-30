@@ -169,7 +169,7 @@ const ETRoutes: FC = () => {
         path={[routes.toCETAgents({ ...accountPathProps, ...projectPathProps, ...etModuleParams })]}
       >
         <CETSettings>
-          <CETAgents pathComponentLocation={'/agents'} />
+          <CETAgents pathComponentLocation="/agents" />
         </CETSettings>
       </RouteWithLayout>
 
@@ -180,7 +180,7 @@ const ETRoutes: FC = () => {
         path={[routes.toCETAgentsTokens({ ...accountPathProps, ...projectPathProps, ...etModuleParams })]}
       >
         <CETSettings>
-          <CETAgents pathComponentLocation={'/tokens'} />
+          <CETAgents pathComponentLocation="/tokens" />
         </CETSettings>
       </RouteWithLayout>
 
@@ -250,7 +250,7 @@ const ETRoutes: FC = () => {
         path={[routes.toCETCriticalEvents({ ...accountPathProps, ...projectPathProps, ...etModuleParams })]}
       >
         <CETSettings>
-          <CETAgents pathComponentLocation={'/criticalevents'} />
+          <CETAgents pathComponentLocation="/criticalevents" />
         </CETSettings>
       </RouteWithLayout>
 
