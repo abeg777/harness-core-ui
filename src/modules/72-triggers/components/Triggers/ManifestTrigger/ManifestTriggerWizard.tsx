@@ -392,7 +392,7 @@ export default function ManifestTriggerWizard(
   }, [loadingGetTrigger, fetchingTemplate, loadingPipeline, loadingResolvedChildPipeline, loadingMergeInputSet])
 
   useDeepCompareEffect(() => {
-    if (shouldRenderWizard && template?.data?.inputSetTemplateYaml !== undefined) {
+    if (template?.data?.inputSetTemplateYaml !== undefined) {
       if (onEditInitialValues?.pipeline && !isMergedPipelineReady) {
         let newOnEditPipeline = merge(
           parse(template?.data?.inputSetTemplateYaml)?.pipeline,
@@ -428,13 +428,7 @@ export default function ManifestTriggerWizard(
         setCurrentPipeline(newPipeline)
       }
     }
-  }, [
-    template?.data?.inputSetTemplateYaml,
-    onEditInitialValues?.pipeline,
-    resolvedMergedPipeline,
-    fetchingTemplate,
-    loadingGetTrigger
-  ])
+  }, [template?.data?.inputSetTemplateYaml, onEditInitialValues?.pipeline, resolvedMergedPipeline, loadingGetTrigger])
 
   useEffect(() => {
     if (triggerResponse?.data?.enabled === false) {
@@ -695,7 +689,8 @@ export default function ManifestTriggerWizard(
       } else if (status === ResponseStatus.SUCCESS) {
         showSuccess(
           getString(isCreatingNewTrigger ? 'triggers.toast.successfulCreate' : 'triggers.toast.successfulUpdate', {
-            name: data?.name
+            name: data?.name,
+            enabled: data?.enabled ? getString('triggers.enabled') : getString('triggers.disabled')
           })
         )
         history.push(

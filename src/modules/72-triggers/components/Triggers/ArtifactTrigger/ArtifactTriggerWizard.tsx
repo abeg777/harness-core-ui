@@ -371,7 +371,7 @@ const ArtifactTriggerWizard = (props: { children: JSX.Element[]; isSimplifiedYAM
   }, [loadingGetTrigger, fetchingTemplate, loadingPipeline, loadingResolvedChildPipeline, loadingMergeInputSet])
 
   useDeepCompareEffect(() => {
-    if (shouldRenderWizard && template?.data?.inputSetTemplateYaml !== undefined) {
+    if (template?.data?.inputSetTemplateYaml !== undefined) {
       if (onEditInitialValues?.pipeline && !isMergedPipelineReady) {
         let newOnEditPipeline = merge(
           parse(template?.data?.inputSetTemplateYaml)?.pipeline,
@@ -407,13 +407,7 @@ const ArtifactTriggerWizard = (props: { children: JSX.Element[]; isSimplifiedYAM
         setCurrentPipeline(newPipeline)
       }
     }
-  }, [
-    template?.data?.inputSetTemplateYaml,
-    onEditInitialValues?.pipeline,
-    resolvedMergedPipeline,
-    fetchingTemplate,
-    loadingGetTrigger
-  ])
+  }, [template?.data?.inputSetTemplateYaml, onEditInitialValues?.pipeline, resolvedMergedPipeline])
 
   useEffect(() => {
     if (triggerResponse?.data?.enabled === false) {
@@ -704,7 +698,8 @@ const ArtifactTriggerWizard = (props: { children: JSX.Element[]; isSimplifiedYAM
       } else if (status === ResponseStatus.SUCCESS) {
         showSuccess(
           getString(isCreatingNewTrigger ? 'triggers.toast.successfulCreate' : 'triggers.toast.successfulUpdate', {
-            name: data?.name
+            name: data?.name,
+            enabled: data?.enabled ? getString('triggers.enabled') : getString('triggers.disabled')
           })
         )
 

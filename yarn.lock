@@ -1749,10 +1749,10 @@
     "@contentful/rich-text-react-renderer" "^15.12.0"
     contentful "^9.1.20"
 
-"@harness/icons@1.143.0":
-  version "1.143.0"
-  resolved "https://npm.pkg.github.com/download/@harness/icons/1.143.0/fb412c51530b7d113694738bfa682db8e141d169#fb412c51530b7d113694738bfa682db8e141d169"
-  integrity sha512-RfIcmJkc7vXWCAHVti07Zc54FMxu54uPW77SkEL9IbRhxM8qEof9Jmcgq7CsEfHTHlCk2+oFeXQKsCFZjv34SA==
+"@harness/icons@1.146.0":
+  version "1.146.0"
+  resolved "https://npm.pkg.github.com/download/@harness/icons/1.146.0/dc1af7c71e2e7a0863dc50a6a6581452d7771085#dc1af7c71e2e7a0863dc50a6a6581452d7771085"
+  integrity sha512-tYq/pK/C4gMdo2vBxbGFio+MFPhMd4zPc9fzwdKJG0qaYlumMbVZayT/nFQXtBSJ297n7+Ay9eNLcAfCePfw1g==
 
 "@harness/jarvis@0.16.0":
   version "0.16.0"
@@ -1794,10 +1794,10 @@
   resolved "https://npm.pkg.github.com/download/@harness/telemetry/1.0.42/60bc34c133bb40f0e0aa08f80620a1b23f3f089070e8550767e9d3fce8ca6e25#4d3f71026a03c898992d902f13a6c6d9cb0edac6"
   integrity sha512-pwjPYnQ8du1UswlX7A/apewGVDmbmaKKWTQSXtSHhKf9ekZ8WCwVvFcrM8ZIq/QbTn7Z8BXFYtMJdSG25oNtOg==
 
-"@harness/uicore@3.135.2":
-  version "3.135.2"
-  resolved "https://npm.pkg.github.com/download/@harness/uicore/3.135.2/441e968f5b11c0f8330c22cf0df3e332dde198b7#441e968f5b11c0f8330c22cf0df3e332dde198b7"
-  integrity sha512-faItanrwhbvMwtsg3JA3PefMOYvlAIweBDnnVmg9LWfPUBH85HnPbBdm44hmJyhK8mUflTkKQUiSl/yjkM35Yw==
+"@harness/uicore@3.136.0":
+  version "3.136.0"
+  resolved "https://npm.pkg.github.com/download/@harness/uicore/3.136.0/67f9c055094ad3b4b49a7843a0829dc06f3299f7#67f9c055094ad3b4b49a7843a0829dc06f3299f7"
+  integrity sha512-IJ7sRYApObqGwQHWJ+lOa+/nMMLjZY3f5Q9A/BoR7xXkKVNyiks2hlsKY+7eY5lJkYYy2OcRKZkDSZ7t7pQeqg==
 
 "@harness/use-modal@1.1.0":
   version "1.1.0"
@@ -1868,10 +1868,10 @@
     "@types/qs" "^6.9.7"
     qs "^6.9.4"
 
-"@harnessio/react-ng-manager-client@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@harnessio/react-ng-manager-client/-/react-ng-manager-client-1.2.2.tgz#7a56a811077af7bb376971a5b507909046f28859"
-  integrity sha512-iUcLx6D8NEBMY4SeWQV7twi/mBdoPU1bYfRtM+dynpyTYei1MtRswCCLvSTN/yV95fNd71tWSt0kgLIoKZX+UQ==
+"@harnessio/react-ng-manager-client@^1.2.3":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@harnessio/react-ng-manager-client/-/react-ng-manager-client-1.3.0.tgz#358bd9de9f46ac35fd0271128b273e5228a30f96"
+  integrity sha512-QGf9422iXtXSgXqu42W6D1iWluUhP1LlBR4iWOXjQkFT8dR3oDy35WRTevKxTtGYciAo5rBWC2skLYQbkbN5PQ==
   dependencies:
     "@tanstack/react-query" "4.20.4"
     "@types/qs" "^6.9.7"

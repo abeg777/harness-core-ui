@@ -282,6 +282,7 @@ export interface StringsMap {
   'common.enableGitSyncPipeline': string
   'common.enabledFlags': string
   'common.endTime': string
+  'common.enterPlaceholder': string
   'common.entitlement': string
   'common.entityPlaceholderText': string
   'common.entityReferenceSubTitle': string
@@ -801,6 +802,7 @@ export interface StringsMap {
   'common.purpose.cd.continuous': string
   'common.purpose.cd.delivery': string
   'common.purpose.cd.description': string
+  'common.purpose.cd.fullText': string
   'common.purpose.cd.introductionConcepts': string
   'common.purpose.cd.introductionText': string
   'common.purpose.cd.newGen.description': string
@@ -1033,6 +1035,13 @@ export interface StringsMap {
   'common.serviceOverrides.globalInfra': string
   'common.serviceOverrides.infrastructureServiceSpecific': string
   'common.serviceOverrides.labelText': string
+  'common.serviceOverrides.newOverride': string
+  'common.serviceOverrides.noOverrides.environmentServiceSpecific': string
+  'common.serviceOverrides.noOverrides.globalEnvironment': string
+  'common.serviceOverrides.noOverrides.globalInfrastructure': string
+  'common.serviceOverrides.noOverrides.infrastructureServiceSpecific': string
+  'common.serviceOverrides.overrideInfo': string
+  'common.serviceOverrides.overrideType': string
   'common.servicePrefix': string
   'common.serviceReliabilityManagement': string
   'common.serviceType': string
@@ -1245,6 +1254,7 @@ export interface StringsMap {
   'common.timeRangeLimitWarning.currentPlanOffer': string
   'common.timeRangeLimitWarning.upgradeOffer': string
   'common.timeframe': string
+  'common.timezone': string
   'common.tokens': string
   'common.totalLines': string
   'common.totalSelected': string
@@ -1313,6 +1323,7 @@ export interface StringsMap {
   'common.validation.yamlFilePath': string
   'common.validationInProgress': string
   'common.valuePlaceholder': string
+  'common.variableType': string
   'common.variables': string
   'common.versionLabel': string
   'common.videoNotSupportedError': string
@@ -1391,6 +1402,7 @@ export interface StringsMap {
   'rbac.customResourceGroupsTooltip': string
   'rbac.customRoles': string
   'rbac.customRolesTooltip': string
+  'rbac.deleteAnyway': string
   'rbac.generateToken': string
   'rbac.group': string
   'rbac.in': string
@@ -1626,6 +1638,7 @@ export interface StringsMap {
   'rbac.userGroupRequired': string
   'rbac.userRequired': string
   'rbac.usersPage.deleteConfirmation': string
+  'rbac.usersPage.deleteExternallyManagedUserConfirmation': string
   'rbac.usersPage.deleteLastAdminError': string
   'rbac.usersPage.deleteLastAdminOrgConfirmation': string
   'rbac.usersPage.deleteLastAdminProjectConfirmation': string
@@ -1671,6 +1684,7 @@ export interface StringsMap {
   'defaultSettings.azureIncludeRefunds': string
   'defaultSettings.concurrentActivePipelineExecutions': string
   'defaultSettings.defaultGitConnector': string
+  'defaultSettings.emailToNonHarnessUsers': string
   'defaultSettings.enableForceDelete': string
   'defaultSettings.enableGitCommands': string
   'defaultSettings.enableMatrixFieldNames': string
@@ -1950,6 +1964,7 @@ export interface StringsMap {
   'secrets.secret.configureRegion': string
   'secrets.secret.configureSecret': string
   'secrets.secret.inlineSecret': string
+  'secrets.secret.invalidReferencePath': string
   'secrets.secret.labelFile': string
   'secrets.secret.labelSecretFile': string
   'secrets.secret.labelSecretType': string
@@ -1962,12 +1977,14 @@ export interface StringsMap {
   'secrets.secret.noSecretsFound': string
   'secrets.secret.placeholderSecretReference': string
   'secrets.secret.placeholderSecretValue': string
+  'secrets.secret.referenceRequired': string
   'secrets.secret.referenceRqrd': string
   'secrets.secret.referenceSecret': string
   'secrets.secret.referenceSecretVersionRqrd': string
   'secrets.secret.region': string
   'secrets.secret.secretActivity': string
   'secrets.secret.secretCreated': string
+  'secrets.secret.secretNameReferenceAndVersionRequired': string
   'secrets.secret.secretNotFound': string
   'secrets.secret.successMessage': string
   'secrets.secret.titleCreateFile': string
@@ -1975,6 +1992,7 @@ export interface StringsMap {
   'secrets.secret.titleEditFile': string
   'secrets.secret.titleEditText': string
   'secrets.secret.updateSuccess': string
+  'secrets.secret.validReferencePath': string
   'secrets.secret.validationIdentifier': string
   'secrets.secret.validationKms': string
   'secrets.secret.validationNameChars': string
@@ -3724,8 +3742,11 @@ export interface StringsMap {
   'pipeline.approvalStep.addApproverInputs': string
   'pipeline.approvalStep.addUserGroups': string
   'pipeline.approvalStep.approverInputs': string
+  'pipeline.approvalStep.approverInputsOptional': string
   'pipeline.approvalStep.approvers': string
   'pipeline.approvalStep.approversWithColon': string
+  'pipeline.approvalStep.autoApproveDeadline': string
+  'pipeline.approvalStep.autoApproveLabel': string
   'pipeline.approvalStep.disallowPipelineExecutor': string
   'pipeline.approvalStep.disallowedApproverExecution': string
   'pipeline.approvalStep.ensureUserGroups': string
@@ -3738,9 +3759,12 @@ export interface StringsMap {
   'pipeline.approvalStep.message': string
   'pipeline.approvalStep.minimumCount': string
   'pipeline.approvalStep.notAuthorizedExecution': string
+  'pipeline.approvalStep.scheduleAutoApprovalOptional': string
   'pipeline.approvalStep.status.APPROVE': string
   'pipeline.approvalStep.status.REJECT': string
   'pipeline.approvalStep.validation.approvalMessage': string
+  'pipeline.approvalStep.validation.autoApproveScheduleCurrentTime': string
+  'pipeline.approvalStep.validation.autoApproveScheduleTimeout': string
   'pipeline.approvalStep.validation.minimumCountDecimal': string
   'pipeline.approvalStep.validation.minimumCountOne': string
   'pipeline.approvalStep.validation.minimumCountRequired': string
@@ -4139,6 +4163,7 @@ export interface StringsMap {
   'pipeline.execution.dialogMessages.abortTitle': string
   'pipeline.execution.dialogMessages.markAsFailedConfirmation': string
   'pipeline.execution.dialogMessages.markAsFailedTitle': string
+  'pipeline.execution.dialogMessages.markAsFailedWarningText': string
   'pipeline.execution.elapsedTime': string
   'pipeline.execution.emptyStepGroup': string
   'pipeline.execution.ignoreFailedWarningText': string
@@ -4960,6 +4985,8 @@ export interface StringsMap {
   'pipeline.stepDescription.AppResize': string
   'pipeline.stepDescription.AwsLambdaDeploy': string
   'pipeline.stepDescription.AwsLambdaDeployRollback': string
+  'pipeline.stepDescription.AwsSamBuild': string
+  'pipeline.stepDescription.AwsSamDeploy': string
   'pipeline.stepDescription.AzureSlotDeployment': string
   'pipeline.stepDescription.AzureTrafficShift': string
   'pipeline.stepDescription.Background': string
@@ -5346,7 +5373,6 @@ export interface StringsMap {
   'freezeWindows.globalFreeze.enabled': string
   'freezeWindows.globalFreeze.enabledWindow': string
   'freezeWindows.rbac.global': string
-  'freezeWindows.recurrenceConfig.Timezone': string
   'freezeWindows.recurrenceConfig.doesNotRepeat': string
   'freezeWindows.recurrenceConfig.endTime': string
   'freezeWindows.recurrenceConfig.nMonthsValidationLessThan': string
@@ -5450,6 +5476,8 @@ export interface StringsMap {
   'triggers.createTrigger': string
   'triggers.cronLabel': string
   'triggers.deleteTrigger': string
+  'triggers.disabled': string
+  'triggers.enabled': string
   'triggers.error.webhookRegistrationFailed': string
   'triggers.inputSetIsRequired': string
   'triggers.inputSetV1Required': string
@@ -6100,7 +6128,6 @@ export interface StringsMap {
   'cd.openTask.openTaskStatusMsgFailed': string
   'cd.openTask.seeOpenTask': string
   'cd.openTask.title': string
-  'cd.overrideType': string
   'cd.overrideValue': string
   'cd.overrideYaml': string
   'cd.pathCannotBeEmpty': string
@@ -6211,6 +6238,7 @@ export interface StringsMap {
   'cd.requiredPermissions': string
   'cd.resourceCannotBeEmpty': string
   'cd.runDelegate': string
+  'cd.samVersionLabel': string
   'cd.searchPlaceholder': string
   'cd.secretManagerRequired': string
   'cd.selectArtifact': string
@@ -6341,6 +6369,10 @@ export interface StringsMap {
   'cd.steps.awsInfraStep.placeholders.loadBalancer': string
   'cd.steps.awsInfraStep.placeholders.vpcs': string
   'cd.steps.awsInfraStep.regionError': string
+  'cd.steps.awsSamBuildStep.awsSamBuildCommandOptions': string
+  'cd.steps.awsSamBuildStep.samBuildDockerContainerRegistry': string
+  'cd.steps.awsSamDeployStep.awsSamDeployCommandOptions': string
+  'cd.steps.awsSamDeployStep.containerConfigurationText': string
   'cd.steps.azureInfraStep.azure': string
   'cd.steps.azureInfraStep.clusterError': string
   'cd.steps.azureInfraStep.resourceGroupError': string
@@ -9561,6 +9593,8 @@ export interface StringsMap {
   'iacm.navTitle': string
   'iacm.permissions.iacmWorkspace': string
   'iacm.permissions.iacmWorkspaces': string
+  'iacm.pipelineSteps.description': string
+  'iacm.pipelineSteps.required': string
   'iacm.pulumi': string
   'iacm.stageDescription': string
   'iacm.stageTitle': string

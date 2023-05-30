@@ -272,6 +272,7 @@ purpose:
   selectAModule: Select a module below to get started
   changeSelection: Change Selection
   cd:
+    fullText: Continuous Deployment
     introductionText: Introduction to Continuous Deployment
     introductionConcepts: Introduction to Continuous Deployment concepts
     delivery: Delivery
@@ -1501,6 +1502,7 @@ entitlement: ENTITLEMENT
 noCreditInfoData: No Credit Information Found
 readOnlyConnectorWarning: Read-only Vault connector is not allowed for Terraform/Terragrunt Plan steps.
 enabledFlags: ENABLED FLAGS
+enterPlaceholder: Enter {{name}}
 annotations: Annotations
 hostNames: Host Names
 expiresOn: Expires on
@@ -1511,4 +1513,14 @@ serviceOverrides:
   environmentServiceSpecific: Service Specific
   globalInfra: Infrastructure Specific
   infrastructureServiceSpecific: Service & Infrastructure Specific
+  newOverride: New Override
+  overrideType: Override Type
+  overrideInfo: Override Info
+  noOverrides:
+    globalEnvironment: You have no global Environment Overrides
+    environmentServiceSpecific: You have no Environment Service specific Overrides
+    globalInfrastructure: You have no global Infrastructure Overrides
+    infrastructureServiceSpecific: You have no Infrastructure Service specific Overrides
 cloudSpends: Cloud Spends
+variableType: Variable Type
+timezone: Timezone
